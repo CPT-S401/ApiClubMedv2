@@ -3,6 +3,7 @@ using System;
 using ApiClubMedv2.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiClubMedv2.Migrations
 {
     [DbContext(typeof(ClubMedDbContext))]
-    partial class ClubMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230309100027_AvecLesNullDskV2")]
+    partial class AvecLesNullDskV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,6 +44,7 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnName("clb_email");
 
                     b.Property<int?>("IdDomaineSkiable")
+                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("clb_iddomaineskiable");
 
@@ -83,7 +86,7 @@ namespace ApiClubMedv2.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("AltitudeBasse")
+                    b.Property<decimal>("AltitudeBasseStation")
                         .HasColumnType("numeric(6,2)")
                         .HasColumnName("dsk_altitudebasse");
 
@@ -136,6 +139,7 @@ namespace ApiClubMedv2.Migrations
                     b.HasOne("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", "Domaine")
                         .WithMany("Clubs")
                         .HasForeignKey("IdDomaineSkiable")
+                        .IsRequired()
                         .HasConstraintName("fk_clb_dsk");
 
                     b.Navigation("Domaine");

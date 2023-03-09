@@ -56,6 +56,8 @@ namespace ApiClubMedv2.Models.DataManager
             entityToUpdate.IdDomaineSkiable = entity.IdDomaineSkiable;
             entityToUpdate.Longitude = entity.Longitude;
             entityToUpdate.Latitude = entity.Latitude;
+            entityToUpdate.LienPDF = entity.LienPDF;
+            entityToUpdate.Email = entity.Email;
             clubMedDbContext.SaveChanges();
         }
 

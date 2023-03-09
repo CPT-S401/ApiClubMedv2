@@ -3,6 +3,7 @@ using System;
 using ApiClubMedv2.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiClubMedv2.Migrations
 {
     [DbContext(typeof(ClubMedDbContext))]
-    partial class ClubMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230309093907_BruhJeRefaisLaBDClubMedS3")]
+    partial class BruhJeRefaisLaBDClubMedS3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,6 +44,7 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnName("clb_email");
 
                     b.Property<int?>("IdDomaineSkiable")
+                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("clb_iddomaineskiable");
 
@@ -51,7 +54,7 @@ namespace ApiClubMedv2.Migrations
 
                     b.Property<string>("LienPDF")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(200)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("clb_lienpdf");
 
                     b.Property<decimal>("Longitude")
@@ -83,30 +86,9 @@ namespace ApiClubMedv2.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("AltitudeBasse")
-                        .HasColumnType("numeric(6,2)")
-                        .HasColumnName("dsk_altitudebasse");
-
-                    b.Property<decimal?>("AltitudeHaute")
-                        .HasColumnType("numeric(6,2)")
-                        .HasColumnName("dsk_altitudehaute");
-
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("dsk_description");
-
-                    b.Property<string>("InfoSki")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(200)")
-                        .HasColumnName("dsk_infoski");
-
-                    b.Property<decimal?>("LongeurPistes")
-                        .HasColumnType("numeric(3,0)")
-                        .HasColumnName("dsk_longueurpistes");
-
-                    b.Property<decimal?>("NbPistes")
-                        .HasColumnType("numeric(3,0)")
-                        .HasColumnName("dsk_nbpistes");
 
                     b.Property<string>("Nom")
                         .IsRequired()
@@ -123,12 +105,6 @@ namespace ApiClubMedv2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("t_e_domaineskiable_dsk", "clubmed");
-
-                    b.HasCheckConstraint("ck_dsk_altbasse_althaute", "dsk_altitudebasse > 0 and dsk_altitudehaute > dsk_altitudebasse");
-
-                    b.HasCheckConstraint("ck_dsk_longueurpistes", "dsk_longueurpistes > 0");
-
-                    b.HasCheckConstraint("ck_dsk_nombrepistes", "dsk_nbpistes > 0");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Club", b =>
@@ -136,6 +112,7 @@ namespace ApiClubMedv2.Migrations
                     b.HasOne("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", "Domaine")
                         .WithMany("Clubs")
                         .HasForeignKey("IdDomaineSkiable")
+                        .IsRequired()
                         .HasConstraintName("fk_clb_dsk");
 
                     b.Navigation("Domaine");

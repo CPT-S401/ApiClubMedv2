@@ -2,159 +2,119 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ApiClubMedv2.Models.EntityFramework;
+using ApiClubMedv2.Models.Repository;
+using ApiClubMedv2.Models.DataManager;
 
 namespace ApiClubMedv2.Controllers
 {
-    public class ClubsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ClubsController : ControllerBase
     {
-        private readonly ClubMedDbContext _context;
+        private readonly ClubManager _clubManager;
 
-        public ClubsController(ClubMedDbContext context)
+        public ClubsController(ClubManager clubManager)
         {
-            _context = context;
+            _clubManager = clubManager;
         }
 
-        // GET: Clubs
-        public async Task<IActionResult> Index()
+        // GET : api/Clubs
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Club>>> GetClubs()
         {
-              return View(await _context.Clubs.ToListAsync());
+            return _clubManager.GetAll();
         }
 
-        // GET: Clubs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET : api/Clubs/1
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Club>> GetClubById(int id)
         {
-            if (id == null || _context.Clubs == null)
-            {
-                return NotFound();
-            }
+            var club = _clubManager.GetById(id);
 
-            var club = await _context.Clubs
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (club == null)
             {
                 return NotFound();
             }
-
-            return View(club);
+            return club;
         }
 
-        // GET: Clubs/Create
-        public IActionResult Create()
+        // GET : api/Clubs/la_plagne
+        [HttpGet]
+        [Route("[action]/{name}")]
+        [ActionName("GetByName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Club>> GetClubByName(string name)
         {
-            return View();
-        }
-
-        // POST: Clubs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdDomaineSkiable,Nom,Description,Longitude,Latitude")] Club club)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(club);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(club);
-        }
-
-        // GET: Clubs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Clubs == null)
-            {
-                return NotFound();
-            }
-
-            var club = await _context.Clubs.FindAsync(id);
+            var club = _clubManager.GetByString(name);
+            //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper());
             if (club == null)
             {
                 return NotFound();
             }
-            return View(club);
+            return club;
         }
 
-        // POST: Clubs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdDomaineSkiable,Nom,Description,Longitude,Latitude")] Club club)
+        // PUT: api/Clubs/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PutClub(int id, Club club)
         {
             if (id != club.Id)
             {
+                return BadRequest();
+            }
+            var clubToUpdate = _clubManager.GetById(id);
+            if (clubToUpdate == null)
+            {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            else
             {
-                try
-                {
-                    _context.Update(club);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClubExists(club.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _clubManager.Update(clubToUpdate.Value, club);
+                return NoContent();
             }
-            return View(club);
         }
 
-        // GET: Clubs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // POST: api/Clubs
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Club>> PostClub(Club club)
         {
-            if (id == null || _context.Clubs == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
+            _clubManager.Add(club);
+            return CreatedAtAction("GetById", new { id = club.Id }, club);
+        }
 
-            var club = await _context.Clubs
-                .FirstOrDefaultAsync(m => m.Id == id);
+        // DELETE: api/Clubs/5
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var club = _clubManager.GetById(id);
             if (club == null)
             {
                 return NotFound();
             }
-
-            return View(club);
-        }
-
-        // POST: Clubs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Clubs == null)
-            {
-                return Problem("Entity set 'ClubMedDbContext.Clubs'  is null.");
-            }
-            var club = await _context.Clubs.FindAsync(id);
-            if (club != null)
-            {
-                _context.Clubs.Remove(club);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClubExists(int id)
-        {
-          return _context.Clubs.Any(e => e.Id == id);
+            _clubManager.Delete(club.Value);
+            return NoContent();
         }
     }
 }

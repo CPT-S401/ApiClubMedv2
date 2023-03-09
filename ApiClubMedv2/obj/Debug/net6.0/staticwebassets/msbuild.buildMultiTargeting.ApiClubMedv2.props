@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ApiClubMedv2.props" />
+</Project>

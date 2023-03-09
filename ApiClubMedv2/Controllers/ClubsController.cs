@@ -15,18 +15,18 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class ClubsController : ControllerBase
     {
-        private readonly ClubManager _clubManager;
+        private readonly IDataRepository<Club> _dataRepository;
 
-        public ClubsController(ClubManager clubManager)
+        public ClubsController(IDataRepository<Club> dataRepository)
         {
-            _clubManager = clubManager;
+            _dataRepository = dataRepository;
         }
 
         // GET : api/Clubs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Club>>> GetClubs()
         {
-            return _clubManager.GetAll();
+            return _dataRepository.GetAll();
         }
 
         // GET : api/Clubs/1
@@ -37,7 +37,7 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Club>> GetClubById(int id)
         {
-            var club = _clubManager.GetById(id);
+            var club = _dataRepository.GetById(id);
 
             if (club == null)
             {
@@ -54,7 +54,7 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Club>> GetClubByName(string name)
         {
-            var club = _clubManager.GetByString(name);
+            var club = _dataRepository.GetByString(name);
             //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper());
             if (club == null)
             {
@@ -75,14 +75,14 @@ namespace ApiClubMedv2.Controllers
             {
                 return BadRequest();
             }
-            var clubToUpdate = _clubManager.GetById(id);
+            var clubToUpdate = _dataRepository.GetById(id);
             if (clubToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                _clubManager.Update(clubToUpdate.Value, club);
+                _dataRepository.Update(clubToUpdate.Value, club);
                 return NoContent();
             }
         }
@@ -98,7 +98,7 @@ namespace ApiClubMedv2.Controllers
             {
                 return BadRequest(ModelState);
             }
-            _clubManager.Add(club);
+            _dataRepository.Add(club);
             return CreatedAtAction("GetById", new { id = club.Id }, club);
         }
 
@@ -108,12 +108,12 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteClub(int id)
         {
-            var club = _clubManager.GetById(id);
+            var club = _dataRepository.GetById(id);
             if (club == null)
             {
                 return NotFound();
             }
-            _clubManager.Delete(club.Value);
+            _dataRepository.Delete(club.Value);
             return NoContent();
         }
     }

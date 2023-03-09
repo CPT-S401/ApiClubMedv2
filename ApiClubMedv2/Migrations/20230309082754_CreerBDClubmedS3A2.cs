@@ -5,12 +5,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ApiClubMedv2.Migrations
 {
-    public partial class CreationBDFilmRatings : Migration
+    public partial class CreerBDClubmedS3A2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "clubmed");
+
             migrationBuilder.CreateTable(
                 name: "t_e_club_clb",
+                schema: "clubmed",
                 columns: table => new
                 {
                     clb_id = table.Column<int>(type: "integer", nullable: false)
@@ -30,7 +34,8 @@ namespace ApiClubMedv2.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "t_e_club_clb");
+                name: "t_e_club_clb",
+                schema: "clubmed");
         }
     }
 }

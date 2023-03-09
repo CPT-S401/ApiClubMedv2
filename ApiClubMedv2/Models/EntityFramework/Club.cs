@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
 {
-    [Table("t_e_club_clb")]
+    [Table("t_e_club_clb", Schema = "clubmed")]
     public class Club
     {
         [Key]

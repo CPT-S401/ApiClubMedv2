@@ -55,7 +55,7 @@ namespace ApiClubMedv2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("t_e_club_clb");
+                    b.ToTable("t_e_club_clb", "clubmed");
                 });
 #pragma warning restore 612, 618
         }

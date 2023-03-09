@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiClubMedv2.Migrations
 {
     [DbContext(typeof(ClubMedDbContext))]
-    [Migration("20230308142422_CreationBDFilmRatings")]
-    partial class CreationBDFilmRatings
+    [Migration("20230309082754_CreerBDClubmedS3A2")]
+    partial class CreerBDClubmedS3A2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,7 +57,7 @@ namespace ApiClubMedv2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("t_e_club_clb");
+                    b.ToTable("t_e_club_clb", "clubmed");
                 });
 #pragma warning restore 612, 618
         }

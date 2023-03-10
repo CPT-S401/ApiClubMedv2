@@ -43,6 +43,12 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasCheckConstraint("ck_dsk_nombrepistes", "dsk_nbpistes > 0");
             });
 
+            modelBuilder.Entity<Transport>(entity =>
+            {
+                entity
+                    .HasCheckConstraint("ck_trp_prix", "trp_prix > 0");
+            });
+
             modelBuilder.Entity<ClubMultimedia>(entity =>
             {
                 entity
@@ -63,10 +69,24 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_mtm_cmt");
             });
 
-            modelBuilder.Entity<Transport>(entity =>
+            modelBuilder.Entity<ClubTransport>(entity =>
             {
                 entity
-                    .HasCheckConstraint("ck_trp_prix", "trp_prix > 0");
+                    .HasKey(ct => new { ct.IdClub, ct.IdTransport });
+
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.ClubTransports)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_ctr");
+
+                entity
+                    .HasOne(d => d.Transport)
+                    .WithMany(p => p.ClubTransports)
+                    .HasForeignKey(d => d.IdTransport)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_cmb_ctr");
             });
 
             OnModelCreatingPartial(modelBuilder);

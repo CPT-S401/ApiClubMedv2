@@ -6,6 +6,11 @@ namespace ApiClubMedv2.Models.EntityFramework
     [Table("t_e_transport_trp", Schema = "clubmed")]
     public class Transport
     {
+        public Transport()
+        {
+            ClubTransports = new HashSet<ClubTransport>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("trp_id")]
         public int Id { get; set; }
@@ -18,5 +23,9 @@ namespace ApiClubMedv2.Models.EntityFramework
         [Required(ErrorMessage = "Le prix du transport est requis")]
         [Column("trp_prix", TypeName = "numeric(5,2)")]
         public double Prix { get; set; }
+
+
+        [InverseProperty("Transport")]
+        public virtual ICollection<ClubTransport> ClubTransports { get; set; }
     }
 }

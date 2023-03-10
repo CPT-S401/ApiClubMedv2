@@ -3,6 +3,7 @@ using System;
 using ApiClubMedv2.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiClubMedv2.Migrations
 {
     [DbContext(typeof(ClubMedDbContext))]
-    partial class ClubMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230310102248_AjoutTableTransport")]
+    partial class AjoutTableTransport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,31 +86,11 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("cmt_idmultimedia");
 
-                    b.Property<int?>("IdMultiMedia")
-                        .HasColumnType("integer");
-
                     b.HasKey("IdClub", "IdMultimedia");
 
                     b.HasIndex("IdMultimedia");
 
                     b.ToTable("t_j_clubmultimedia_cmt", "clubmed");
-                });
-
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubTransport", b =>
-                {
-                    b.Property<int>("IdClub")
-                        .HasColumnType("integer")
-                        .HasColumnName("ctr_idclub");
-
-                    b.Property<int>("IdTransport")
-                        .HasColumnType("integer")
-                        .HasColumnName("ctr_idtransport");
-
-                    b.HasKey("IdClub", "IdTransport");
-
-                    b.HasIndex("IdTransport");
-
-                    b.ToTable("t_j_clubtransport_ctr", "clubmed");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", b =>
@@ -253,30 +235,9 @@ namespace ApiClubMedv2.Migrations
                     b.Navigation("Multimedia");
                 });
 
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubTransport", b =>
-                {
-                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
-                        .WithMany("ClubTransports")
-                        .HasForeignKey("IdClub")
-                        .IsRequired()
-                        .HasConstraintName("fk_clb_ctr");
-
-                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Transport", "Transport")
-                        .WithMany("ClubTransports")
-                        .HasForeignKey("IdTransport")
-                        .IsRequired()
-                        .HasConstraintName("fk_cmb_ctr");
-
-                    b.Navigation("Club");
-
-                    b.Navigation("Transport");
-                });
-
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Club", b =>
                 {
                     b.Navigation("ClubMultimedias");
-
-                    b.Navigation("ClubTransports");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", b =>
@@ -287,11 +248,6 @@ namespace ApiClubMedv2.Migrations
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Multimedia", b =>
                 {
                     b.Navigation("ClubMultimedias");
-                });
-
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Transport", b =>
-                {
-                    b.Navigation("ClubTransports");
                 });
 #pragma warning restore 612, 618
         }

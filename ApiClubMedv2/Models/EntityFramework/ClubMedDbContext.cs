@@ -10,6 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Club> Clubs { get; set; } = null!;
         public virtual DbSet<DomaineSkiable> Domaines { get; set; } = null!;
         public virtual DbSet<Multimedia> Multimedias { get; set; } = null!;
+        public virtual DbSet<Transport> Transports { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -60,6 +61,12 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdMultimedia)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_mtm_cmt");
+            });
+
+            modelBuilder.Entity<Transport>(entity =>
+            {
+                entity
+                    .HasCheckConstraint("ck_trp_prix", "trp_prix > 0");
             });
 
             OnModelCreatingPartial(modelBuilder);

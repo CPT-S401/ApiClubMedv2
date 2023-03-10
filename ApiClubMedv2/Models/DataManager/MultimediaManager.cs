@@ -20,27 +20,27 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<Multimedia> GetById(int id)
         {
-            var Multimediaskiable = clubMedDbContext.Multimedias.Find(id);
+            var multimedia = clubMedDbContext.Multimedias.Find(id);
 
-            if (Multimediaskiable == null)
+            if (multimedia == null)
             {
                 return new NotFoundResult();
             }
 
-            return Multimediaskiable;
+            return multimedia;
         }
 
         public ActionResult<Multimedia> GetByString(string str)
         {
             str = str.Replace('_', ' ');
-            var Multimediaskiable = clubMedDbContext.Multimedias.FirstOrDefault(c => c.Nom.ToLower() == str.ToLower());
+            var multimedia = clubMedDbContext.Multimedias.FirstOrDefault(c => c.Nom.ToLower() == str.ToLower());
 
-            if (Multimediaskiable == null)
+            if (multimedia == null)
             {
                 return new NotFoundResult();
             }
 
-            return Multimediaskiable;
+            return multimedia;
         }
 
         public void Add(Multimedia entity)

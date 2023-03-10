@@ -14,6 +14,7 @@ namespace ApiClubMedv2
             // Add services to the container.
             builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
             builder.Services.AddScoped<IDataRepository<DomaineSkiable>, DomaineSkiableManager>();
+            builder.Services.AddScoped<IDataRepository<Multimedia>, MultimediaManager>();
             builder.Services.AddControllers();
 
             builder.Services.AddDbContext<ClubMedDbContext>(options =>

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
@@ -7,6 +6,11 @@ namespace ApiClubMedv2.Models.EntityFramework
     [Table("t_e_club_clb", Schema = "clubmed")]
     public class Club
     {
+        public Club()
+        {
+            ClubMultimedias = new HashSet<ClubMultimedia>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("clb_id")]
         public int Id { get; set; }
@@ -16,14 +20,14 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [Required(ErrorMessage = "Le nom du club est requis")]
         [Column("clb_nom")]
-        [StringLength(50, ErrorMessage = "La longueur du nom ne doit pas dépasser les 50 caractères")]
+        [StringLength(100, ErrorMessage = "La longueur du nom ne doit pas dépasser les 100 caractères")]
         public string Nom { get; set; } = null!;
 
         [Column("clb_description", TypeName = "text")]
         public string? Description { get; set; }
         
-        [Column("clb_lienpdf", TypeName = "varchar(200)")]
-        [StringLength(100, ErrorMessage = "La longueur d'un lien ne doit pas dépasser 200 caractères")]
+        [Column("clb_lienpdf", TypeName = "varchar(255)")]
+        [StringLength(255, ErrorMessage = "La longueur d'un lien ne doit pas dépasser 255 caractères")]
         public string? LienPDF { get; set; }
 
         [Required(ErrorMessage = "La longitude est requise")]
@@ -44,5 +48,8 @@ namespace ApiClubMedv2.Models.EntityFramework
         [ForeignKey("IdDomaineSkiable")]
         [InverseProperty("Clubs")]
         public virtual DomaineSkiable? Domaine { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubMultimedia> ClubMultimedias { get; set; }
     }
 }

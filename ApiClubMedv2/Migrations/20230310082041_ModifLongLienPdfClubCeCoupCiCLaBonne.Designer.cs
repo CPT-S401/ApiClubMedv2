@@ -3,6 +3,7 @@ using System;
 using ApiClubMedv2.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiClubMedv2.Migrations
 {
     [DbContext(typeof(ClubMedDbContext))]
-    partial class ClubMedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230310082041_ModifLongLienPdfClubCeCoupCiCLaBonne")]
+    partial class ModifLongLienPdfClubCeCoupCiCLaBonne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,23 +74,6 @@ namespace ApiClubMedv2.Migrations
                     b.HasIndex("IdDomaineSkiable");
 
                     b.ToTable("t_e_club_clb", "clubmed");
-                });
-
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubMultimedia", b =>
-                {
-                    b.Property<int>("IdClub")
-                        .HasColumnType("integer")
-                        .HasColumnName("cmt_idclub");
-
-                    b.Property<int>("IdMultimedia")
-                        .HasColumnType("integer")
-                        .HasColumnName("cmt_idmultimedia");
-
-                    b.HasKey("IdClub", "IdMultimedia");
-
-                    b.HasIndex("IdMultimedia");
-
-                    b.ToTable("t_j_clubmultimedia_cmt", "clubmed");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", b =>
@@ -161,6 +146,14 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnType("text")
                         .HasColumnName("mtm_description");
 
+                    b.Property<int?>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("mtm_idclub");
+
+                    b.Property<int?>("IdResto")
+                        .HasColumnType("integer")
+                        .HasColumnName("mtm_idrestauration");
+
                     b.Property<string>("Lien")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -188,38 +181,9 @@ namespace ApiClubMedv2.Migrations
                     b.Navigation("Domaine");
                 });
 
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubMultimedia", b =>
-                {
-                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
-                        .WithMany("ClubMultimedias")
-                        .HasForeignKey("IdClub")
-                        .IsRequired()
-                        .HasConstraintName("fk_clb_cmt");
-
-                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Multimedia", "Multimedia")
-                        .WithMany("ClubMultimedias")
-                        .HasForeignKey("IdMultimedia")
-                        .IsRequired()
-                        .HasConstraintName("fk_mtm_cmt");
-
-                    b.Navigation("Club");
-
-                    b.Navigation("Multimedia");
-                });
-
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Club", b =>
-                {
-                    b.Navigation("ClubMultimedias");
-                });
-
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", b =>
                 {
                     b.Navigation("Clubs");
-                });
-
-            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Multimedia", b =>
-                {
-                    b.Navigation("ClubMultimedias");
                 });
 #pragma warning restore 612, 618
         }

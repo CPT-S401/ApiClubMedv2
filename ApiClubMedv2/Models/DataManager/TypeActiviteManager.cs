@@ -1,4 +1,6 @@
-﻿multimedia
+﻿using ApiClubMedv2.Models.EntityFramework;
+using ApiClubMedv2.Models.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiClubMedv2.Models.DataManager
 {

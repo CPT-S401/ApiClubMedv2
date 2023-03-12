@@ -9,6 +9,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public ClubMedDbContext(DbContextOptions<ClubMedDbContext> options) : base(options) { }
 
         public virtual DbSet<Club> Clubs { get; set; } = null!;
+        public virtual DbSet<TypeClub> TypesClub { get; set; } = null!;
         public virtual DbSet<DomaineSkiable> Domaines { get; set; } = null!;
         public virtual DbSet<Multimedia> Multimedias { get; set; } = null!;
         public virtual DbSet<Transport> Transports { get; set; } = null!;
@@ -297,10 +298,30 @@ namespace ApiClubMedv2.Models.EntityFramework
 
                 entity
                     .HasOne(d => d.Localisation)
-                    .WithMany(p => p.ClubPaysLocalisation)
+                    .WithMany(p => p.ClubPaysLocalisations)
                     .HasForeignKey(d => d.IdLocalisation)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_loc_cps");
+            });
+
+            modelBuilder.Entity<PaysLocalisation>(entity =>
+            {
+                entity
+                    .HasKey(pal => new { pal.IdPays, pal.IdLocalisation });
+
+                entity
+                    .HasOne(d => d.Pays)
+                    .WithMany(p => p.PaysLocalisations)
+                    .HasForeignKey(d => d.IdPays)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_pay_pal");
+
+                entity
+                    .HasOne(d => d.Localisation)
+                    .WithMany(p => p.PaysLocalisation)
+                    .HasForeignKey(d => d.IdLocalisation)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_loc_pal");
             });
 
             OnModelCreatingPartial(modelBuilder);

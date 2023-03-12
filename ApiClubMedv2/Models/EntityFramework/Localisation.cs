@@ -8,7 +8,8 @@ namespace ApiClubMedv2.Models.EntityFramework
     {
         public Localisation()
         {
-            ClubPaysLocalisation = new HashSet<ClubPaysLocalisation>();
+            ClubPaysLocalisations = new HashSet<ClubPaysLocalisation>();
+            PaysLocalisation = new HashSet<PaysLocalisation>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,6 +22,9 @@ namespace ApiClubMedv2.Models.EntityFramework
         public string Nom { get; set; } = null!;
 
         [InverseProperty("Localisation")]
-        public virtual ICollection<ClubPaysLocalisation> ClubPaysLocalisation { get; set; }
+        public virtual ICollection<ClubPaysLocalisation> ClubPaysLocalisations { get; set; }
+
+        [InverseProperty("Localisation")]
+        public virtual ICollection<PaysLocalisation> PaysLocalisation { get; set; }
     }
 }

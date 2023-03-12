@@ -134,6 +134,26 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_act_cac");
             });
 
+            modelBuilder.Entity<ClubActiviteEnfant>(entity =>
+            {
+                entity
+                    .HasKey(cae => new { cae.IdClub, cae.IdActiviteEnfant });
+
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.ClubActivitesEnfant)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_cae");
+
+                entity
+                    .HasOne(d => d.ActiviteEnfant)
+                    .WithMany(p => p.ClubActivitesEnfant)
+                    .HasForeignKey(d => d.IdActiviteEnfant)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_ace_cae");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
     }

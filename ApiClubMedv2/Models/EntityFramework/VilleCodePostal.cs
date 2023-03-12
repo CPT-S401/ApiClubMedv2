@@ -6,7 +6,6 @@ namespace ApiClubMedv2.Models.EntityFramework
     [Table("t_j_villecodepostal_vcp", Schema = "clubmed")]
     public class VilleCodePostal
     {
-
         [Required(ErrorMessage = "L'id de la ville est requis")]
         [Column("rmt_idrestaurant")]
         public int IdVille { get; set; }

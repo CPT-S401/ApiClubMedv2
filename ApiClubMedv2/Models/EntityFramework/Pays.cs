@@ -9,6 +9,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public Pays()
         {
             Villes = new HashSet<Ville>();
+            ClubPaysLocalisations = new HashSet<ClubPaysLocalisation>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,5 +23,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Pays")]
         public virtual ICollection<Ville> Villes { get; set; }
+
+        [InverseProperty("Pays")]
+        public virtual ICollection<ClubPaysLocalisation> ClubPaysLocalisations { get; set; }
     }
 }

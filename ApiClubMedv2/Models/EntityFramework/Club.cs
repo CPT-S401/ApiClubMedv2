@@ -15,6 +15,7 @@ namespace ApiClubMedv2.Models.EntityFramework
             ClubActivitesEnfant = new HashSet<ClubActiviteEnfant>();
             Bars = new HashSet<Bar>();
             Restaurants = new HashSet<Restaurant>();
+            ClubPaysLocalisations = new HashSet<ClubPaysLocalisation>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -75,5 +76,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Club")]
         public virtual ICollection<Restaurant> Restaurants { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubPaysLocalisation> ClubPaysLocalisations { get; set; }
     }
 }

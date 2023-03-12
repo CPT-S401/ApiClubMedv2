@@ -22,6 +22,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Ville> Villes { get; set; } = null!;
         public virtual DbSet<Pays> Pays { get; set; } = null!;
         public virtual DbSet<CodePostal> CodesPostaux { get; set; } = null!;
+        public virtual DbSet<Localisation> Localisations { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -273,6 +274,33 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdCodePostal)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_cpl_vcp");
+            });
+
+            modelBuilder.Entity<ClubPaysLocalisation>(entity =>
+            {
+                entity
+                    .HasKey(cps => new { cps.IdClub, cps.IdPays, cps.IdLocalisation });
+
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.ClubPaysLocalisations)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_cps");
+
+                entity
+                    .HasOne(d => d.Pays)
+                    .WithMany(p => p.ClubPaysLocalisations)
+                    .HasForeignKey(d => d.IdPays)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_pay_cps");
+
+                entity
+                    .HasOne(d => d.Localisation)
+                    .WithMany(p => p.ClubPaysLocalisation)
+                    .HasForeignKey(d => d.IdLocalisation)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_loc_cps");
             });
 
             OnModelCreatingPartial(modelBuilder);

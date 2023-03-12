@@ -26,6 +26,7 @@ namespace ApiClubMedv2
             builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
             builder.Services.AddScoped<IDataRepository<Pays>, PaysManager>();
             builder.Services.AddScoped<IDataRepository<CodePostal>, CodePostalManager>();
+            builder.Services.AddScoped<IDataRepository<Localisation>, LocalisationManager>();
 
 
             // Add controllers to the container

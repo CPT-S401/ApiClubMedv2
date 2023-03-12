@@ -12,18 +12,18 @@ namespace ApiClubMedv2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MultimediasController : ControllerBase
+    public class LocalisationsController : ControllerBase
     {
-        private readonly IDataRepository<Multimedia> _dataRepository;
+        private readonly IDataRepository<Localisation> _dataRepository;
 
-        public MultimediasController(IDataRepository<Multimedia> dataRepository)
+        public LocalisationsController(IDataRepository<Localisation> dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
         // GET : api/Clubs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Multimedia>>> GetMultimedias()
+        public async Task<ActionResult<IEnumerable<Localisation>>> GetLocalisations()
         {
             return _dataRepository.GetAll();
         }
@@ -34,15 +34,15 @@ namespace ApiClubMedv2.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Multimedia>> GetMultimediaById(int id)
+        public async Task<ActionResult<Localisation>> GetLocalisationById(int id)
         {
-            var multimedia = _dataRepository.GetById(id);
+            var localisation = _dataRepository.GetById(id);
 
-            if (multimedia == null)
+            if (localisation == null)
             {
                 return NotFound();
             }
-            return multimedia;
+            return localisation;
         }
 
         // GET : api/Clubs/la_plagne
@@ -51,15 +51,15 @@ namespace ApiClubMedv2.Controllers
         [ActionName("GetByName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Multimedia>> GetMultimediaByName(string name)
+        public async Task<ActionResult<Localisation>> GetLocalisationByName(string name)
         {
-            var multimedia = _dataRepository.GetByString(name);
+            var localisation = _dataRepository.GetByString(name);
             //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper());
-            if (multimedia == null)
+            if (localisation == null)
             {
                 return NotFound();
             }
-            return multimedia;
+            return localisation;
         }
 
         // PUT: api/Clubs/5
@@ -68,20 +68,20 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutMultimedia(int id, Multimedia multimedia)
+        public async Task<IActionResult> PutLocalisation(int id, Localisation localisation)
         {
-            if (id != multimedia.Id)
+            if (id != localisation.Id)
             {
                 return BadRequest();
             }
-            var multimediaToUpdate = _dataRepository.GetById(id);
-            if (multimediaToUpdate == null)
+            var localisationToUpdate = _dataRepository.GetById(id);
+            if (localisationToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                _dataRepository.Update(multimediaToUpdate.Value, multimedia);
+                _dataRepository.Update(localisationToUpdate.Value, localisation);
                 return NoContent();
             }
         }
@@ -91,28 +91,28 @@ namespace ApiClubMedv2.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Multimedia>> PostMultimedia(Multimedia multimedia)
+        public async Task<ActionResult<Localisation>> PostLocalisation(Localisation localisation)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            _dataRepository.Add(multimedia);
-            return CreatedAtAction("GetById", new { id = multimedia.Id }, multimedia);
+            _dataRepository.Add(localisation);
+            return CreatedAtAction("GetById", new { id = localisation.Id }, localisation);
         }
 
         // DELETE: api/Clubs/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteMultimedia(int id)
+        public async Task<IActionResult> DeleteLocalisation(int id)
         {
-            var multimedia = _dataRepository.GetById(id);
-            if (multimedia == null)
+            var localisation = _dataRepository.GetById(id);
+            if (localisation == null)
             {
                 return NotFound();
             }
-            _dataRepository.Delete(multimedia.Value);
+            _dataRepository.Delete(localisation.Value);
             return NoContent();
         }
     }

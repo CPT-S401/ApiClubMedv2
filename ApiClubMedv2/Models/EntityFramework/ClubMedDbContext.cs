@@ -13,6 +13,9 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Multimedia> Multimedias { get; set; } = null!;
         public virtual DbSet<Transport> Transports { get; set; } = null!;
         public virtual DbSet<Caracteristique> Caracteristiques { get; set; } = null!;
+        public virtual DbSet<Cookie> Cookies { get; set; } = null!;
+        public virtual DbSet<Activite> Activites { get; set; } = null!;
+        public virtual DbSet<ActiviteEnfant> ActivitesEnfant { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -109,6 +112,26 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdCaracteristique)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ctq_cct");
+            });
+
+            modelBuilder.Entity<ClubActivite>(entity =>
+            {
+                entity
+                    .HasKey(ca => new { ca.IdClub, ca.IdActivite });
+
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.ClubActivites)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_cac");
+
+                entity
+                    .HasOne(d => d.Activite)
+                    .WithMany(p => p.ClubActivites)
+                    .HasForeignKey(d => d.IdActivite)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_act_cac");
             });
 
             OnModelCreatingPartial(modelBuilder);

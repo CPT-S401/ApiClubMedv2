@@ -17,9 +17,14 @@ namespace ApiClubMedv2
             builder.Services.AddScoped<IDataRepository<Multimedia>, MultimediaManager>();
             builder.Services.AddScoped<IDataRepository<Transport>, TransportManager>();
             builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueManager>();
+            builder.Services.AddScoped<IDataRepository<Cookie>, CookieManager>();
+            builder.Services.AddScoped<IDataRepository<Activite>, ActiviteManager>();
+            builder.Services.AddScoped<IDataRepository<ActiviteEnfant>, ActiviteEnfantManager>();
 
+            // Add controllers to the container
             builder.Services.AddControllers();
 
+            // Connect to database with the string in appsettings.json
             builder.Services.AddDbContext<ClubMedDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("ClubMedDBContext")));
 

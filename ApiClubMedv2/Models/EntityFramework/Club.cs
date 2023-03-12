@@ -10,6 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         {
             ClubMultimedias = new HashSet<ClubMultimedia>();
             ClubTransports = new HashSet<ClubTransport>();
+            ClubCaracteristiques = new HashSet<ClubCaracteristique>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -55,5 +56,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Club")]
         public virtual ICollection<ClubTransport> ClubTransports { get; set; }
+        
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubCaracteristique> ClubCaracteristiques { get; set; }
     }
 }

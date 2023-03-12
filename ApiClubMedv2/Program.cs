@@ -15,6 +15,9 @@ namespace ApiClubMedv2
             builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
             builder.Services.AddScoped<IDataRepository<DomaineSkiable>, DomaineSkiableManager>();
             builder.Services.AddScoped<IDataRepository<Multimedia>, MultimediaManager>();
+            builder.Services.AddScoped<IDataRepository<Transport>, TransportManager>();
+            builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueManager>();
+
             builder.Services.AddControllers();
 
             builder.Services.AddDbContext<ClubMedDbContext>(options =>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace ApiClubMedv2.Models.EntityFramework
 {
@@ -11,6 +12,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<DomaineSkiable> Domaines { get; set; } = null!;
         public virtual DbSet<Multimedia> Multimedias { get; set; } = null!;
         public virtual DbSet<Transport> Transports { get; set; } = null!;
+        public virtual DbSet<Caracteristique> Caracteristiques { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -87,6 +89,26 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdTransport)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_cmb_ctr");
+            });
+
+            modelBuilder.Entity<ClubCaracteristique>(entity =>
+            {
+                entity
+                    .HasKey(cc => new { cc.IdClub, cc.IdCaracteristique });
+
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.ClubCaracteristiques)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_cct");
+
+                entity
+                    .HasOne(d => d.Caracteristique)
+                    .WithMany(p => p.ClubCaracteristiques)
+                    .HasForeignKey(d => d.IdCaracteristique)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_ctq_cct");
             });
 
             OnModelCreatingPartial(modelBuilder);

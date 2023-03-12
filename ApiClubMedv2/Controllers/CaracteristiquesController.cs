@@ -12,18 +12,18 @@ namespace ApiClubMedv2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DomaineSkiablesController : ControllerBase
+    public class CaracteristiquesController : ControllerBase
     {
-        private readonly IDataRepository<DomaineSkiable> _dataRepository;
+        private readonly IDataRepository<Caracteristique> _dataRepository;
 
-        public DomaineSkiablesController(IDataRepository<DomaineSkiable> dataRepository)
+        public CaracteristiquesController(IDataRepository<Caracteristique> dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
         // GET : api/Clubs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DomaineSkiable>>> GetDomainesSkiables()
+        public async Task<ActionResult<IEnumerable<Caracteristique>>> GetCaracteristiques()
         {
             return _dataRepository.GetAll();
         }
@@ -34,15 +34,15 @@ namespace ApiClubMedv2.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DomaineSkiable>> GetDomaineSkiableById(int id)
+        public async Task<ActionResult<Caracteristique>> GetCaracteristiqueById(int id)
         {
-            var domaineSkiable = _dataRepository.GetById(id);
+            var caracteristique = _dataRepository.GetById(id);
 
-            if (domaineSkiable == null)
+            if (caracteristique == null)
             {
                 return NotFound();
             }
-            return domaineSkiable;
+            return caracteristique;
         }
 
         // GET : api/Clubs/la_plagne
@@ -51,15 +51,15 @@ namespace ApiClubMedv2.Controllers
         [ActionName("GetByName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DomaineSkiable>> GetDomaineSkiableByName(string name)
+        public async Task<ActionResult<Caracteristique>> GetCaracteristiqueByName(string name)
         {
-            var domaineSkiable = _dataRepository.GetByString(name);
+            var caracteristique = _dataRepository.GetByString(name);
             //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper());
-            if (domaineSkiable == null)
+            if (caracteristique == null)
             {
                 return NotFound();
             }
-            return domaineSkiable;
+            return caracteristique;
         }
 
         // PUT: api/Clubs/5
@@ -68,20 +68,20 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutDomaineSkiable(int id, DomaineSkiable domaineSkiable)
+        public async Task<IActionResult> PutCaracteristique(int id, Caracteristique caracteristique)
         {
-            if (id != domaineSkiable.Id)
+            if (id != caracteristique.Id)
             {
                 return BadRequest();
             }
-            var domaineSkiableToUpdate = _dataRepository.GetById(id);
-            if (domaineSkiableToUpdate == null)
+            var caracteristiqueToUpdate = _dataRepository.GetById(id);
+            if (caracteristiqueToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                _dataRepository.Update(domaineSkiableToUpdate.Value, domaineSkiable);
+                _dataRepository.Update(caracteristiqueToUpdate.Value, caracteristique);
                 return NoContent();
             }
         }
@@ -91,28 +91,28 @@ namespace ApiClubMedv2.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<DomaineSkiable>> PostDomaineSkiable(DomaineSkiable domaineSkiable)
+        public async Task<ActionResult<Caracteristique>> PostCaracteristique(Caracteristique caracteristique)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            _dataRepository.Add(domaineSkiable);
-            return CreatedAtAction("GetById", new { id = domaineSkiable.Id }, domaineSkiable);
+            _dataRepository.Add(caracteristique);
+            return CreatedAtAction("GetById", new { id = caracteristique.Id }, caracteristique);
         }
 
         // DELETE: api/Clubs/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteDomaineSkiable(int id)
+        public async Task<IActionResult> Deletecaracteristique(int id)
         {
-            var domaineSkiable = _dataRepository.GetById(id);
-            if (domaineSkiable == null)
+            var caracteristique = _dataRepository.GetById(id);
+            if (caracteristique == null)
             {
                 return NotFound();
             }
-            _dataRepository.Delete(domaineSkiable.Value);
+            _dataRepository.Delete(caracteristique.Value);
             return NoContent();
         }
     }

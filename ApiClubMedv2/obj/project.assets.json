@@ -10369,24 +10369,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\trompiec\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\traze\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+      "projectUniqueName": "C:\\Users\\traze\\source\\repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
       "projectName": "ApiClubMedv2",
-      "projectPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
-      "packagesPath": "C:\\Users\\trompiec\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
+      "projectPath": "C:\\Users\\traze\\source\\repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+      "packagesPath": "C:\\Users\\traze\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\traze\\source\\repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\trompiec\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\traze\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10462,7 +10457,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

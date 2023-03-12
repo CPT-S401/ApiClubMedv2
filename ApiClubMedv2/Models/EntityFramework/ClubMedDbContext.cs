@@ -14,8 +14,13 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Transport> Transports { get; set; } = null!;
         public virtual DbSet<Caracteristique> Caracteristiques { get; set; } = null!;
         public virtual DbSet<Cookie> Cookies { get; set; } = null!;
+        public virtual DbSet<TypeActivite> TypesActivite { get; set; } = null!;
         public virtual DbSet<Activite> Activites { get; set; } = null!;
         public virtual DbSet<ActiviteEnfant> ActivitesEnfant { get; set; } = null!;
+        public virtual DbSet<Bar> Bars { get; set; } = null!;
+        public virtual DbSet<Restaurant> Restaurants { get; set; } = null!;
+        public virtual DbSet<Ville> Villes { get; set; } = null!;
+        public virtual DbSet<Pays> Pays { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -52,6 +57,61 @@ namespace ApiClubMedv2.Models.EntityFramework
             {
                 entity
                     .HasCheckConstraint("ck_trp_prix", "trp_prix > 0");
+            });
+
+            modelBuilder.Entity<Bar>(entity =>
+            {
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.Bars)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_bar");
+            });
+
+            modelBuilder.Entity<Restaurant>(entity =>
+            {
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.Restaurants)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_ret");
+            });
+
+            modelBuilder.Entity<Activite>(entity =>
+            {
+                entity
+                    .HasOne(d => d.TypeActivite)
+                    .WithMany(p => p.Activites)
+                    .HasForeignKey(d => d.IdTypeActivite)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_act_tac");
+
+                entity
+                    .HasCheckConstraint("ck_act_agemin", "act_agemin > 0");
+
+                entity
+                    .HasCheckConstraint("ck_act_prix", "act_prix > 0");
+            });
+
+            modelBuilder.Entity<Ville>(entity =>
+            {
+                entity
+                    .HasOne(d => d.Pays)
+                    .WithMany(p => p.Villes)
+                    .HasForeignKey(d => d.IdPays)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_pay_vil");
+            });
+
+            modelBuilder.Entity<ActiviteEnfant>(entity =>
+            {
+                entity
+                    .HasCheckConstraint("ck_ace_age", "ace_agemin > 0 AND ace_agemax > ace_agemin");
+
+                entity
+                    .HasCheckConstraint("ck_ace_prix", "ace_prix > 0");
             });
 
             modelBuilder.Entity<ClubMultimedia>(entity =>

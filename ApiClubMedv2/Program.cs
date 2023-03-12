@@ -20,6 +20,12 @@ namespace ApiClubMedv2
             builder.Services.AddScoped<IDataRepository<Cookie>, CookieManager>();
             builder.Services.AddScoped<IDataRepository<Activite>, ActiviteManager>();
             builder.Services.AddScoped<IDataRepository<ActiviteEnfant>, ActiviteEnfantManager>();
+            builder.Services.AddScoped<IDataRepository<TypeActivite>, TypeActiviteManager>();
+            builder.Services.AddScoped<IDataRepository<Bar>, BarManager>();
+            builder.Services.AddScoped<IDataRepository<Restaurant>, RestaurantManager>();
+            builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
+            builder.Services.AddScoped<IDataRepository<Pays>, PaysManager>();
+
 
             // Add controllers to the container
             builder.Services.AddControllers();

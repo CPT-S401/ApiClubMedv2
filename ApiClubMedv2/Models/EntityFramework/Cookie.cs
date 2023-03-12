@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
 {
-    // [Table("t_e_cookie_cok", Schema = "clubmed")]
+    [Table("t_e_cookie_cok", Schema = "clubmed")]
     public class Cookie
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

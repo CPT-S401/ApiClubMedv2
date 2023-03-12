@@ -15,11 +15,11 @@ namespace ApiClubMedv2.Models.EntityFramework
         public int IdActiviteEnfant { get; set; }
 
         [ForeignKey("IdClub")]
-        [InverseProperty("ClubActivites")]
+        [InverseProperty("ClubActivitesEnfant")]
         public virtual Club? Club { get; set; }
 
         [ForeignKey("IdActiviteEnfant")]
-        [InverseProperty("ClubActivites")]
+        [InverseProperty("ClubActivitesEnfant")]
         public virtual ActiviteEnfant? ActiviteEnfant { get; set; }
     }
 }

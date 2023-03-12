@@ -21,6 +21,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Restaurant> Restaurants { get; set; } = null!;
         public virtual DbSet<Ville> Villes { get; set; } = null!;
         public virtual DbSet<Pays> Pays { get; set; } = null!;
+        public virtual DbSet<CodePostal> CodesPostaux { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -252,6 +253,26 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdMultimedia)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_mlm_rmt");
+            });
+
+            modelBuilder.Entity<VilleCodePostal>(entity =>
+            {
+                entity
+                    .HasKey(vcp => new { vcp.IdVille, vcp.IdCodePostal });
+
+                entity
+                    .HasOne(d => d.Ville)
+                    .WithMany(p => p.VilleCodesPostaux)
+                    .HasForeignKey(d => d.IdVille)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_vil_vcp");
+
+                entity
+                    .HasOne(d => d.CodePostal)
+                    .WithMany(p => p.VilleCodesPostaux)
+                    .HasForeignKey(d => d.IdCodePostal)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_cpl_vcp");
             });
 
             OnModelCreatingPartial(modelBuilder);

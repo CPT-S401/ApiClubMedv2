@@ -14,7 +14,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         [InverseProperty("Restaurants")]
         public virtual Club? Club { get; set; }
 
-        [InverseProperty("Bar")]
+        [InverseProperty("Restaurant")]
         public virtual ICollection<RestaurantMultimedia> RestaurantMultimedias { get; set; }
     }
 }

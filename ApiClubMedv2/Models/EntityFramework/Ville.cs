@@ -6,6 +6,11 @@ namespace ApiClubMedv2.Models.EntityFramework
     [Table("t_e_ville_vil", Schema = "clubmed")]
     public class Ville
     {
+        public Ville()
+        {
+            VilleCodesPostaux = new HashSet<VilleCodePostal>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("vil_id")]
         public int Id { get; set; }
@@ -22,5 +27,8 @@ namespace ApiClubMedv2.Models.EntityFramework
         [ForeignKey("IdPays")]
         [InverseProperty("Villes")]
         public virtual Pays? Pays { get; set; }
+
+        [InverseProperty("Ville")]
+        public virtual ICollection<VilleCodePostal> VilleCodesPostaux { get; set; }
     }
 }

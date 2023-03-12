@@ -214,6 +214,46 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_ace_cae");
             });
 
+            modelBuilder.Entity<BarMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(bmt => new { bmt.IdBar, bmt.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.Bar)
+                    .WithMany(p => p.BarMultimedias)
+                    .HasForeignKey(d => d.IdBar)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_bar_bmt");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.BarMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_bmt");
+            });
+
+            modelBuilder.Entity<RestaurantMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(rmt => new { rmt.IdRestaurant, rmt.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.Restaurant)
+                    .WithMany(p => p.RestaurantMultimedias)
+                    .HasForeignKey(d => d.IdRestaurant)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_ret_rmt");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.RestaurantMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_rmt");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
     }

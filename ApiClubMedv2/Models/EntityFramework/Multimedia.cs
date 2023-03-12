@@ -9,6 +9,8 @@ namespace ApiClubMedv2.Models.EntityFramework
         public Multimedia()
         {
             ClubMultimedias = new HashSet<ClubMultimedia>();
+            BarMultimedias = new HashSet<BarMultimedia>();
+            RestaurantMultimedias = new HashSet<RestaurantMultimedia>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -30,5 +32,11 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Multimedia")]
         public virtual ICollection<ClubMultimedia> ClubMultimedias { get; set; }
+
+        [InverseProperty("Multimedia")]
+        public virtual ICollection<BarMultimedia> BarMultimedias { get; set; }
+
+        [InverseProperty("Multimedia")]
+        public virtual ICollection<RestaurantMultimedia> RestaurantMultimedias { get; set; }
     }
 }

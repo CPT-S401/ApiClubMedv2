@@ -9,6 +9,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public Transport()
         {
             ClubTransports = new HashSet<ClubTransport>();
+            Reservations = new HashSet<Reservation>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -27,5 +28,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Transport")]
         public virtual ICollection<ClubTransport> ClubTransports { get; set; }
+
+        [InverseProperty("Transport")]
+        public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

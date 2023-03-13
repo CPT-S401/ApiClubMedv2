@@ -8,6 +8,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public TypeChambre()
         {
             ClubTypesChambre = new HashSet<ClubTypeChambre>();
+            Reservations = new HashSet<Reservation>();
         }
 
         [Key]
@@ -37,5 +38,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("TypeChambre")]
         public virtual ICollection<ClubTypeChambre> ClubTypesChambre { get; set; }
+
+        [InverseProperty("TypeChambre")]
+        public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

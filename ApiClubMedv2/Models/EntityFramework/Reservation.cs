@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
 {
-    [Table("t_e_reservation_rea")]
+    [Table("t_e_reservation_rea", Schema = "clubmed")]
     public class Reservation
     {
         [Key]
@@ -37,5 +37,17 @@ namespace ApiClubMedv2.Models.EntityFramework
         [Required(ErrorMessage = "La date de la réservation est requise")]
         [Column("rea_date", TypeName = "date")]
         public DateTime Date { get; set; }
+
+        [ForeignKey("IdTransport")]
+        [InverseProperty("Reservations")]
+        public virtual Transport? Transport { get; set; }
+
+        [ForeignKey("IdClub")]
+        [InverseProperty("Reservations")]
+        public virtual Club? Club { get; set; }
+
+        [ForeignKey("IdTypeChambre")]
+        [InverseProperty("Reservations")]
+        public virtual TypeChambre? TypeChambre { get; set; }
     }
 }

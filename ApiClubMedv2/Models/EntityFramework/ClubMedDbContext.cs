@@ -116,6 +116,12 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasBaseType<Activite>();
             });
 
+            modelBuilder.Entity<TypeChambre>(entity =>
+            {
+                entity
+                    .HasCheckConstraint("ck_tch_prix", "tch_prix > 0");
+            });
+
             modelBuilder.Entity<ClubMultimedia>(entity =>
             {
                 entity
@@ -330,7 +336,7 @@ namespace ApiClubMedv2.Models.EntityFramework
 
                 entity
                     .HasOne(d => d.Club)
-                    .WithMany(p => p.ClubTypeClubs)
+                    .WithMany(p => p.ClubTypesClub)
                     .HasForeignKey(d => d.IdClub)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_clb_ctc");
@@ -361,6 +367,30 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdTypeChambre)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_tch_cth");
+            });
+
+            modelBuilder.Entity<Reservation>(entity =>
+            {
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.Reservations)
+                    .HasForeignKey(d => d.IdClub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasForeignKey("fk_clb_rea");
+
+                entity
+                    .HasOne(d => d.Transport)
+                    .WithMany(p => p.Reservations)
+                    .HasForeignKey(d => d.IdTransport)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasForeignKey("fk_trp_rea");
+
+                entity
+                    .HasOne(d => d.TypeChambre)
+                    .WithMany(p => p.Reservations)
+                    .HasForeignKey(d => d.IdTypeChambre)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasForeignKey("fk_tch_rea");
             });
 
             OnModelCreatingPartial(modelBuilder);

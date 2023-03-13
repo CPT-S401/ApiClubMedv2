@@ -18,7 +18,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         [InverseProperty("ClubMultimedias")]
         public virtual Club? Club { get; set; }
 
-        [ForeignKey("IdMultiMedia")]
+        [ForeignKey("IdMultimedia")]
         [InverseProperty("ClubMultimedias")]
         public virtual Multimedia? Multimedia { get; set; }
     }

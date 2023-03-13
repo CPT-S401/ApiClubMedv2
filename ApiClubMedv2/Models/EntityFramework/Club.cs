@@ -10,8 +10,17 @@ namespace ApiClubMedv2.Models.EntityFramework
         {
             ClubMultimedias = new HashSet<ClubMultimedia>();
             ClubTransports = new HashSet<ClubTransport>();
+            ClubCaracteristiques = new HashSet<ClubCaracteristique>();
+            ClubActivites = new HashSet<ClubActivite>();
+            ClubActivitesEnfant = new HashSet<ClubActiviteEnfant>();
+            Bars = new HashSet<Bar>();
+            Restaurants = new HashSet<Restaurant>();
+            ClubPaysLocalisations = new HashSet<ClubPaysLocalisation>();
+            ClubTypeClubs = new HashSet<ClubTypeClub>();
+            ClubTypesChambre = new HashSet<ClubTypeChambre>();
         }
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("clb_id")]
         public int Id { get; set; }
@@ -55,5 +64,29 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Club")]
         public virtual ICollection<ClubTransport> ClubTransports { get; set; }
+        
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubCaracteristique> ClubCaracteristiques { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubActivite> ClubActivites { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubActiviteEnfant> ClubActivitesEnfant { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<Bar> Bars { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<Restaurant> Restaurants { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubPaysLocalisation> ClubPaysLocalisations { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubTypeClub> ClubTypeClubs { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<ClubTypeChambre> ClubTypesChambre { get; set; }
     }
 }

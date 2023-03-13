@@ -53,13 +53,13 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DomaineSkiable>> GetDomaineSkiableByName(string name)
         {
-            var club = _dataRepository.GetByString(name);
+            var domaineSkiable = _dataRepository.GetByString(name);
             //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper());
-            if (club == null)
+            if (domaineSkiable == null)
             {
                 return NotFound();
             }
-            return club;
+            return domaineSkiable;
         }
 
         // PUT: api/Clubs/5
@@ -91,7 +91,7 @@ namespace ApiClubMedv2.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Club>> PostDomaineSkiable(DomaineSkiable domaineSkiable)
+        public async Task<ActionResult<DomaineSkiable>> PostDomaineSkiable(DomaineSkiable domaineSkiable)
         {
             if (!ModelState.IsValid)
             {

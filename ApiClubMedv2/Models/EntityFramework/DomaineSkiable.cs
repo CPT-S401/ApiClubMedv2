@@ -10,7 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         {
             Clubs = new HashSet<Club>();
         }
-
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("dsk_id")]
         public int Id { get; set; }

@@ -22,6 +22,129 @@ namespace ApiClubMedv2.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Activite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("act_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AgeMin")
+                        .HasColumnType("integer")
+                        .HasColumnName("act_agemin");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("act_description");
+
+                    b.Property<string>("Duree")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("act_duree");
+
+                    b.Property<bool>("EstIncluse")
+                        .HasColumnType("boolean")
+                        .HasColumnName("act_estincluse");
+
+                    b.Property<int>("IdTypeActivite")
+                        .HasColumnType("integer")
+                        .HasColumnName("act_idtypeactivite");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("act_nom");
+
+                    b.Property<decimal?>("Prix")
+                        .HasColumnType("numeric(7,2)")
+                        .HasColumnName("act_prix");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdTypeActivite");
+
+                    b.ToTable("t_e_activite_act", "clubmed");
+
+                    b.HasCheckConstraint("ck_act_agemin", "act_agemin > 0");
+
+                    b.HasCheckConstraint("ck_act_prix", "act_prix > 0");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Bar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("res_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("res_description");
+
+                    b.Property<int>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("res_idclub");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("res_nom");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdClub");
+
+                    b.ToTable("t_e_bar_bar", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.BarMultimedia", b =>
+                {
+                    b.Property<int>("IdBar")
+                        .HasColumnType("integer")
+                        .HasColumnName("bmt_idbar");
+
+                    b.Property<int>("IdMultimedia")
+                        .HasColumnType("integer")
+                        .HasColumnName("bmt_idmultimedia");
+
+                    b.HasKey("IdBar", "IdMultimedia");
+
+                    b.HasIndex("IdMultimedia");
+
+                    b.ToTable("t_j_barmultimedia_bmt", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Caracteristique", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("ctq_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Icon")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("ctq_lienicon");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("ctq_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_caracteristique_ctq", "clubmed");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Club", b =>
                 {
                     b.Property<int>("Id")
@@ -74,6 +197,57 @@ namespace ApiClubMedv2.Migrations
                     b.ToTable("t_e_club_clb", "clubmed");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubActivite", b =>
+                {
+                    b.Property<int>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("cac_idclub");
+
+                    b.Property<int>("IdActivite")
+                        .HasColumnType("integer")
+                        .HasColumnName("cac_idactivite");
+
+                    b.HasKey("IdClub", "IdActivite");
+
+                    b.HasIndex("IdActivite");
+
+                    b.ToTable("t_j_clubactivite_cac", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubActiviteEnfant", b =>
+                {
+                    b.Property<int>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("cae_idclub");
+
+                    b.Property<int>("IdActiviteEnfant")
+                        .HasColumnType("integer")
+                        .HasColumnName("cae_idactiviteenfant");
+
+                    b.HasKey("IdClub", "IdActiviteEnfant");
+
+                    b.HasIndex("IdActiviteEnfant");
+
+                    b.ToTable("t_j_clubactiviteenfant_cae", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubCaracteristique", b =>
+                {
+                    b.Property<int>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("cct_idclub");
+
+                    b.Property<int>("IdCaracteristique")
+                        .HasColumnType("integer")
+                        .HasColumnName("cct_idcaracteristique");
+
+                    b.HasKey("IdClub", "IdCaracteristique");
+
+                    b.HasIndex("IdCaracteristique");
+
+                    b.ToTable("t_j_clubcaracteristique_cct", "clubmed");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubMultimedia", b =>
                 {
                     b.Property<int>("IdClub")
@@ -84,14 +258,34 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("cmt_idmultimedia");
 
-                    b.Property<int?>("IdMultiMedia")
-                        .HasColumnType("integer");
-
                     b.HasKey("IdClub", "IdMultimedia");
 
                     b.HasIndex("IdMultimedia");
 
                     b.ToTable("t_j_clubmultimedia_cmt", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubPaysLocalisation", b =>
+                {
+                    b.Property<int>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("cps_idclub");
+
+                    b.Property<int>("IdPays")
+                        .HasColumnType("integer")
+                        .HasColumnName("cps_idpays");
+
+                    b.Property<int>("IdLocalisation")
+                        .HasColumnType("integer")
+                        .HasColumnName("cps_idlocalisation");
+
+                    b.HasKey("IdClub", "IdPays", "IdLocalisation");
+
+                    b.HasIndex("IdLocalisation");
+
+                    b.HasIndex("IdPays");
+
+                    b.ToTable("t_j_clubpayslocalisation_cps", "clubmed");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubTransport", b =>
@@ -109,6 +303,50 @@ namespace ApiClubMedv2.Migrations
                     b.HasIndex("IdTransport");
 
                     b.ToTable("t_j_clubtransport_ctr", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.CodePostal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("cpl_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("cpl_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_codepostal_cpl", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Cookie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("cok_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("cok_description");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("cok_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_cookie_cok", "clubmed");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", b =>
@@ -168,6 +406,26 @@ namespace ApiClubMedv2.Migrations
                     b.HasCheckConstraint("ck_dsk_nombrepistes", "dsk_nbpistes > 0");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Localisation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("loc_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("loc_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_localisation_loc", "clubmed");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Multimedia", b =>
                 {
                     b.Property<int>("Id")
@@ -198,6 +456,90 @@ namespace ApiClubMedv2.Migrations
                     b.ToTable("t_e_multimedia_mtm", "clubmed");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Pays", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("pay_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("pay_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_pays_pay", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.PaysLocalisation", b =>
+                {
+                    b.Property<int>("IdPays")
+                        .HasColumnType("integer")
+                        .HasColumnName("pal_idpays");
+
+                    b.Property<int>("IdLocalisation")
+                        .HasColumnType("integer")
+                        .HasColumnName("pal_idlocalisation");
+
+                    b.HasKey("IdPays", "IdLocalisation");
+
+                    b.HasIndex("IdLocalisation");
+
+                    b.ToTable("t_j_payslocalisation_pal", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Restaurant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("res_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("res_description");
+
+                    b.Property<int>("IdClub")
+                        .HasColumnType("integer")
+                        .HasColumnName("res_idclub");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("res_nom");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdClub");
+
+                    b.ToTable("t_e_restaurant_ret", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.RestaurantMultimedia", b =>
+                {
+                    b.Property<int>("IdRestaurant")
+                        .HasColumnType("integer")
+                        .HasColumnName("rmt_idrestaurant");
+
+                    b.Property<int>("IdMultimedia")
+                        .HasColumnType("integer")
+                        .HasColumnName("rmt_idmultimedia");
+
+                    b.HasKey("IdRestaurant", "IdMultimedia");
+
+                    b.HasIndex("IdMultimedia");
+
+                    b.ToTable("t_j_restaurantmultimedia_rmt", "clubmed");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Transport", b =>
                 {
                     b.Property<int>("Id")
@@ -224,6 +566,149 @@ namespace ApiClubMedv2.Migrations
                     b.HasCheckConstraint("ck_trp_prix", "trp_prix > 0");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.TypeActivite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("tac_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("tac_description");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("tac_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_typeactivite_tac", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.TypeClub", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("tcl_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("tcl_nom");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_e_typeclub_tcl", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Ville", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("vil_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdPays")
+                        .HasColumnType("integer")
+                        .HasColumnName("vil_idpays");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("vil_nom");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPays");
+
+                    b.ToTable("t_e_ville_vil", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.VilleCodePostal", b =>
+                {
+                    b.Property<int>("IdVille")
+                        .HasColumnType("integer")
+                        .HasColumnName("rmt_idrestaurant");
+
+                    b.Property<int>("IdCodePostal")
+                        .HasColumnType("integer")
+                        .HasColumnName("rmt_idmultimedia");
+
+                    b.HasKey("IdVille", "IdCodePostal");
+
+                    b.HasIndex("IdCodePostal");
+
+                    b.ToTable("t_j_villecodepostal_vcp", "clubmed");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ActiviteEnfant", b =>
+                {
+                    b.HasBaseType("ApiClubMedv2.Models.EntityFramework.Activite");
+
+                    b.Property<decimal>("AgeMax")
+                        .HasColumnType("numeric(4,2)")
+                        .HasColumnName("ace_agemax");
+
+                    b.ToTable("t_e_activiteenfant_ace", "clubmed");
+
+                    b.HasCheckConstraint("ck_act_agemin", "act_agemin > 0");
+
+                    b.HasCheckConstraint("ck_act_prix", "act_prix > 0");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Activite", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.TypeActivite", "TypeActivite")
+                        .WithMany("Activites")
+                        .HasForeignKey("IdTypeActivite")
+                        .IsRequired()
+                        .HasConstraintName("fk_act_tac");
+
+                    b.Navigation("TypeActivite");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Bar", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
+                        .WithMany("Bars")
+                        .HasForeignKey("IdClub")
+                        .IsRequired()
+                        .HasConstraintName("fk_clb_bar");
+
+                    b.Navigation("Club");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.BarMultimedia", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Bar", "Bar")
+                        .WithMany("BarMultimedias")
+                        .HasForeignKey("IdBar")
+                        .IsRequired()
+                        .HasConstraintName("fk_bar_bmt");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Multimedia", "Multimedia")
+                        .WithMany("BarMultimedias")
+                        .HasForeignKey("IdMultimedia")
+                        .IsRequired()
+                        .HasConstraintName("fk_mlm_bmt");
+
+                    b.Navigation("Bar");
+
+                    b.Navigation("Multimedia");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Club", b =>
                 {
                     b.HasOne("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", "Domaine")
@@ -232,6 +717,63 @@ namespace ApiClubMedv2.Migrations
                         .HasConstraintName("fk_clb_dsk");
 
                     b.Navigation("Domaine");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubActivite", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Activite", "Activite")
+                        .WithMany("ClubActivites")
+                        .HasForeignKey("IdActivite")
+                        .IsRequired()
+                        .HasConstraintName("fk_act_cac");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
+                        .WithMany("ClubActivites")
+                        .HasForeignKey("IdClub")
+                        .IsRequired()
+                        .HasConstraintName("fk_clb_cac");
+
+                    b.Navigation("Activite");
+
+                    b.Navigation("Club");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubActiviteEnfant", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.ActiviteEnfant", "ActiviteEnfant")
+                        .WithMany("ClubActivitesEnfant")
+                        .HasForeignKey("IdActiviteEnfant")
+                        .IsRequired()
+                        .HasConstraintName("fk_ace_cae");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
+                        .WithMany("ClubActivitesEnfant")
+                        .HasForeignKey("IdClub")
+                        .IsRequired()
+                        .HasConstraintName("fk_clb_cae");
+
+                    b.Navigation("ActiviteEnfant");
+
+                    b.Navigation("Club");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubCaracteristique", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Caracteristique", "Caracteristique")
+                        .WithMany("ClubCaracteristiques")
+                        .HasForeignKey("IdCaracteristique")
+                        .IsRequired()
+                        .HasConstraintName("fk_ctq_cct");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
+                        .WithMany("ClubCaracteristiques")
+                        .HasForeignKey("IdClub")
+                        .IsRequired()
+                        .HasConstraintName("fk_clb_cct");
+
+                    b.Navigation("Caracteristique");
+
+                    b.Navigation("Club");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubMultimedia", b =>
@@ -253,6 +795,33 @@ namespace ApiClubMedv2.Migrations
                     b.Navigation("Multimedia");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubPaysLocalisation", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
+                        .WithMany("ClubPaysLocalisations")
+                        .HasForeignKey("IdClub")
+                        .IsRequired()
+                        .HasConstraintName("fk_clb_cps");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Localisation", "Localisation")
+                        .WithMany("ClubPaysLocalisations")
+                        .HasForeignKey("IdLocalisation")
+                        .IsRequired()
+                        .HasConstraintName("fk_loc_cps");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Pays", "Pays")
+                        .WithMany("ClubPaysLocalisations")
+                        .HasForeignKey("IdPays")
+                        .IsRequired()
+                        .HasConstraintName("fk_pay_cps");
+
+                    b.Navigation("Club");
+
+                    b.Navigation("Localisation");
+
+                    b.Navigation("Pays");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ClubTransport", b =>
                 {
                     b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
@@ -272,11 +841,131 @@ namespace ApiClubMedv2.Migrations
                     b.Navigation("Transport");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.PaysLocalisation", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Localisation", "Localisation")
+                        .WithMany("PaysLocalisation")
+                        .HasForeignKey("IdLocalisation")
+                        .IsRequired()
+                        .HasConstraintName("fk_loc_pal");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Pays", "Pays")
+                        .WithMany("PaysLocalisations")
+                        .HasForeignKey("IdPays")
+                        .IsRequired()
+                        .HasConstraintName("fk_pay_pal");
+
+                    b.Navigation("Localisation");
+
+                    b.Navigation("Pays");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Restaurant", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Club", "Club")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("IdClub")
+                        .IsRequired()
+                        .HasConstraintName("fk_clb_ret");
+
+                    b.Navigation("Club");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.RestaurantMultimedia", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Multimedia", "Multimedia")
+                        .WithMany("RestaurantMultimedias")
+                        .HasForeignKey("IdMultimedia")
+                        .IsRequired()
+                        .HasConstraintName("fk_mlm_rmt");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Restaurant", "Restaurant")
+                        .WithMany("RestaurantMultimedias")
+                        .HasForeignKey("IdRestaurant")
+                        .IsRequired()
+                        .HasConstraintName("fk_ret_rmt");
+
+                    b.Navigation("Multimedia");
+
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Ville", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Pays", "Pays")
+                        .WithMany("Villes")
+                        .HasForeignKey("IdPays")
+                        .IsRequired()
+                        .HasConstraintName("fk_pay_vil");
+
+                    b.Navigation("Pays");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.VilleCodePostal", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.CodePostal", "CodePostal")
+                        .WithMany("VilleCodesPostaux")
+                        .HasForeignKey("IdCodePostal")
+                        .IsRequired()
+                        .HasConstraintName("fk_cpl_vcp");
+
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Ville", "Ville")
+                        .WithMany("VilleCodesPostaux")
+                        .HasForeignKey("IdVille")
+                        .IsRequired()
+                        .HasConstraintName("fk_vil_vcp");
+
+                    b.Navigation("CodePostal");
+
+                    b.Navigation("Ville");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ActiviteEnfant", b =>
+                {
+                    b.HasOne("ApiClubMedv2.Models.EntityFramework.Activite", null)
+                        .WithOne()
+                        .HasForeignKey("ApiClubMedv2.Models.EntityFramework.ActiviteEnfant", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Activite", b =>
+                {
+                    b.Navigation("ClubActivites");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Bar", b =>
+                {
+                    b.Navigation("BarMultimedias");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Caracteristique", b =>
+                {
+                    b.Navigation("ClubCaracteristiques");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Club", b =>
                 {
+                    b.Navigation("Bars");
+
+                    b.Navigation("ClubActivites");
+
+                    b.Navigation("ClubActivitesEnfant");
+
+                    b.Navigation("ClubCaracteristiques");
+
                     b.Navigation("ClubMultimedias");
 
+                    b.Navigation("ClubPaysLocalisations");
+
                     b.Navigation("ClubTransports");
+
+                    b.Navigation("Restaurants");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.CodePostal", b =>
+                {
+                    b.Navigation("VilleCodesPostaux");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.DomaineSkiable", b =>
@@ -284,14 +973,54 @@ namespace ApiClubMedv2.Migrations
                     b.Navigation("Clubs");
                 });
 
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Localisation", b =>
+                {
+                    b.Navigation("ClubPaysLocalisations");
+
+                    b.Navigation("PaysLocalisation");
+                });
+
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Multimedia", b =>
                 {
+                    b.Navigation("BarMultimedias");
+
                     b.Navigation("ClubMultimedias");
+
+                    b.Navigation("RestaurantMultimedias");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Pays", b =>
+                {
+                    b.Navigation("ClubPaysLocalisations");
+
+                    b.Navigation("PaysLocalisations");
+
+                    b.Navigation("Villes");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Restaurant", b =>
+                {
+                    b.Navigation("RestaurantMultimedias");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Transport", b =>
                 {
                     b.Navigation("ClubTransports");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.TypeActivite", b =>
+                {
+                    b.Navigation("Activites");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Ville", b =>
+                {
+                    b.Navigation("VilleCodesPostaux");
+                });
+
+            modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.ActiviteEnfant", b =>
+                {
+                    b.Navigation("ClubActivitesEnfant");
                 });
 #pragma warning restore 612, 618
         }

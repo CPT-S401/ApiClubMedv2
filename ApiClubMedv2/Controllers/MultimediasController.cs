@@ -36,13 +36,13 @@ namespace ApiClubMedv2.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Multimedia>> GetMultimediaById(int id)
         {
-            var club = _dataRepository.GetById(id);
+            var multimedia = _dataRepository.GetById(id);
 
-            if (club == null)
+            if (multimedia == null)
             {
                 return NotFound();
             }
-            return club;
+            return multimedia;
         }
 
         // GET : api/Clubs/la_plagne

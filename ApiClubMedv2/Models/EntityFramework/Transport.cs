@@ -10,7 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         {
             ClubTransports = new HashSet<ClubTransport>();
         }
-
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("trp_id")]
         public int Id { get; set; }

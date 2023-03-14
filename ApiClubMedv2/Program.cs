@@ -33,7 +33,7 @@ namespace ApiClubMedv2
             builder.Services.AddScoped<IDataRepository<CodePostal>, CodePostalManager>();
             builder.Services.AddScoped<IDataRepository<Localisation>, LocalisationManager>();
             builder.Services.AddScoped<IDataRepository<Reservation>, ReservationManager>();
-
+            builder.Services.AddScoped<IDataRepository<Avis>, AvisManager>();
 
             // Add controllers to the container
             builder.Services.AddControllers();

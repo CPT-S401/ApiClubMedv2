@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using APIClubMed.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
 namespace ApiClubMedv2.Models.EntityFramework
@@ -26,6 +27,8 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<CodePostal> CodesPostaux { get; set; } = null!;
         public virtual DbSet<Localisation> Localisations { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;
+        public virtual DbSet<Client> Clients { get; set; } = null!;
+        public virtual DbSet<Avis> Avis { get; set; } = null!;
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -376,21 +379,45 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .WithMany(p => p.Reservations)
                     .HasForeignKey(d => d.IdClub)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasForeignKey("fk_clb_rea");
+                    .HasConstraintName("fk_clb_rea");
 
                 entity
                     .HasOne(d => d.Transport)
                     .WithMany(p => p.Reservations)
                     .HasForeignKey(d => d.IdTransport)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasForeignKey("fk_trp_rea");
+                    .HasConstraintName("fk_trp_rea");
 
                 entity
                     .HasOne(d => d.TypeChambre)
                     .WithMany(p => p.Reservations)
                     .HasForeignKey(d => d.IdTypeChambre)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasForeignKey("fk_tch_rea");
+                    .HasConstraintName("fk_tch_rea");
+
+                entity
+                    .HasOne(d => d.Client)
+                    .WithMany(p => p.Reservations)
+                    .HasForeignKey(d => d.IdClient)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clt_rea");
+            });
+
+            modelBuilder.Entity<Avis>(entity =>
+            {
+                entity
+                    .HasOne(d => d.Client)
+                    .WithMany(p => p.Avis)
+                    .HasForeignKey(d => d.IdClient)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clt_avi");
+
+                entity
+                    .HasOne(d => d.Club)
+                    .WithMany(p => p.Avis)
+                    .HasForeignKey(d => d.IdClient)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_clb_avi");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -821,3 +821,4 @@ F:\S401\APIClubMed\ApiClubMedv2\ApiClubMedv2\obj\Debug\net6.0\ApiClubMedv2.pdb
 F:\S401\APIClubMed\ApiClubMedv2\ApiClubMedv2\obj\Debug\net6.0\ApiClubMedv2.genruntimeconfig.cache
 F:\S401\APIClubMed\ApiClubMedv2\ApiClubMedv2\obj\Debug\net6.0\ref\ApiClubMedv2.dll
 F:\S401\APIClubMed\ApiClubMedv2\ApiClubMedv2\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\trompiec\Desktop\ApiClubMedv2\ApiClubMedv2\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

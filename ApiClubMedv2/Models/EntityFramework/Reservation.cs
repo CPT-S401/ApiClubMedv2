@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using APIClubMed.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
@@ -49,5 +50,9 @@ namespace ApiClubMedv2.Models.EntityFramework
         [ForeignKey("IdTypeChambre")]
         [InverseProperty("Reservations")]
         public virtual TypeChambre? TypeChambre { get; set; }
+
+        [ForeignKey("IdClient")]
+        [InverseProperty("Reservations")]
+        public virtual Client? Client { get; set; }
     }
 }

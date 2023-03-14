@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using APIClubMed.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
@@ -9,6 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public CodePostal()
         {
             VilleCodesPostaux = new HashSet<VilleCodePostal>();
+            CodePostalDesClients = new HashSet<Client>();
         }
 
         public CodePostal(string code)
@@ -28,5 +30,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("CodePostal")]
         public virtual ICollection<VilleCodePostal> VilleCodesPostaux { get; set; }
+
+        [InverseProperty("CodePostalClient")]
+        public virtual ICollection<Client> CodePostalDesClients { get; set; }
     }
 }

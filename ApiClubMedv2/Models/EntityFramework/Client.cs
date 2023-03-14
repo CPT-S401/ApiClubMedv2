@@ -12,6 +12,12 @@ namespace APIClubMed.Models
     [Index("Mobile", IsUnique = true)]
     public class Client
     {
+        public Client()
+        {
+            Reservations = new HashSet<Reservation>();
+            Avis = new HashSet<Avis>();
+        }
+
         private string password;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -76,6 +82,11 @@ namespace APIClubMed.Models
         [StringLength(50, ErrorMessage = "Le nom de rue ne doit pas dépasser 50 caractères")]
         public string? NomRue { get; set; }
 
+        [Required(ErrorMessage = "L'id du code postal est requis")]
+        [Column("clt_idcodepostal")]
+        public int IdCodePostal { get; set; }
+
+        [ForeignKey("IdCodePostal")]
         [InverseProperty("CodePostalDesClients")]
         public virtual CodePostal? CodePostalClient { get; set; }
 
@@ -105,5 +116,11 @@ namespace APIClubMed.Models
 
             return ValidationResult.Success;
         }
+
+        [InverseProperty("Client")]
+        public virtual ICollection<Reservation> Reservations { get; set; }
+
+        [InverseProperty("Client")]
+        public virtual ICollection<Avis> Avis { get; set; }
     }
 }

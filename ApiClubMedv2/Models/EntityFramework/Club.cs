@@ -19,6 +19,7 @@ namespace ApiClubMedv2.Models.EntityFramework
             ClubTypesClub = new HashSet<ClubTypeClub>();
             ClubTypesChambre = new HashSet<ClubTypeChambre>();
             Reservations = new HashSet<Reservation>();
+            Avis = new HashSet<Avis>();
         }
 
         [Key]
@@ -92,5 +93,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Club")]
         public virtual ICollection<Reservation> Reservations { get; set; }
+
+        [InverseProperty("Club")]
+        public virtual ICollection<Avis> Avis { get; set; }
     }
 }

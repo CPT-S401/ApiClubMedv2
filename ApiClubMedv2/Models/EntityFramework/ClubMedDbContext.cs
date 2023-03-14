@@ -420,6 +420,23 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_clb_avi");
             });
 
+            modelBuilder.Entity<AvisMultimedia>(entity =>
+            {
+                entity
+                    .HasOne(d => d.Avis)
+                    .WithMany(p => p.AvisMultimedias)
+                    .HasForeignKey(d => d.IdAvis)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_avi_amt");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.AvisMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mtm_amt");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
     }

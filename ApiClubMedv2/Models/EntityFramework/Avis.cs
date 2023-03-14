@@ -7,6 +7,11 @@ namespace ApiClubMedv2.Models.EntityFramework
     [Table("t_e_avis_avi", Schema = "clubmed")]
     public class Avis
     {
+        public Avis()
+        {
+            AvisMultimedias = new HashSet<AvisMultimedia>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("avi_id")]
@@ -33,10 +38,13 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [ForeignKey("IdClient")]
         [InverseProperty("Avis")]
-        public virtual Client Client { get; set; }
+        public virtual Client? Client { get; set; }
 
         [ForeignKey("IdClub")]
         [InverseProperty("Avis")]
-        public virtual Club Club { get; set; }
+        public virtual Club? Club { get; set; }
+
+        [InverseProperty("Avis")]
+        public virtual ICollection<AvisMultimedia> AvisMultimedias { get; set; }
     }
 }

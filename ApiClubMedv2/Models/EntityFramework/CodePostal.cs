@@ -10,6 +10,12 @@ namespace ApiClubMedv2.Models.EntityFramework
         {
             VilleCodesPostaux = new HashSet<VilleCodePostal>();
         }
+
+        public CodePostal(string code)
+        {
+            this.Code = code;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("cpl_id")]

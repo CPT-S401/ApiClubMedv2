@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {}
+    "F:\\S401\\APIClubMed\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {
+    "F:\\S401\\APIClubMed\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+        "projectUniqueName": "F:\\S401\\APIClubMed\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
         "projectName": "ApiClubMedv2",
-        "projectPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
-        "packagesPath": "C:\\Users\\trompiec\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
+        "projectPath": "F:\\S401\\APIClubMed\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+        "packagesPath": "C:\\Users\\dasmathe\\.nuget\\packages\\",
+        "outputPath": "F:\\S401\\APIClubMed\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\trompiec\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dasmathe\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,6 +44,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.14, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.14, )"

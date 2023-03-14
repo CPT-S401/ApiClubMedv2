@@ -20,6 +20,7 @@ namespace APIClubMed.Models
 
         private string password;
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("clt_idclient")]
         public int IdClient { get; set; }

@@ -423,6 +423,9 @@ namespace ApiClubMedv2.Models.EntityFramework
             modelBuilder.Entity<AvisMultimedia>(entity =>
             {
                 entity
+                    .HasKey(amt => new { amt.IdAvis, amt.IdMultimedia });
+
+                entity
                     .HasOne(d => d.Avis)
                     .WithMany(p => p.AvisMultimedias)
                     .HasForeignKey(d => d.IdAvis)

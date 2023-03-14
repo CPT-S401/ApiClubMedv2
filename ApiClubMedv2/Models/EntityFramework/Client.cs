@@ -7,7 +7,7 @@ using ApiClubMedv2.Models;
 
 namespace APIClubMed.Models
 {
-    [Table("t_e_client_clt")]
+    [Table("t_e_client_clt", Schema = "clubmed")]
     [Index("Email", IsUnique = true)]
     [Index("Mobile", IsUnique = true)]
     public class Client

@@ -7,11 +7,11 @@ namespace ApiClubMedv2.Models.EntityFramework
     public class VilleCodePostal
     {
         [Required(ErrorMessage = "L'id de la ville est requis")]
-        [Column("rmt_idrestaurant")]
+        [Column("vcp_idville")]
         public int IdVille { get; set; }
 
         [Required(ErrorMessage = "L'id du code postal est requis")]
-        [Column("rmt_idmultimedia")]
+        [Column("vcp_idcodepostal")]
         public int IdCodePostal { get; set; }
 
         [ForeignKey("IdVille")]

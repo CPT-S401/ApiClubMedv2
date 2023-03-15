@@ -17,7 +17,7 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [Required(ErrorMessage = "Le nom de la ville est requis")]
         [Column("vil_nom")]
-        [StringLength(50, ErrorMessage = "La longueur du nom ne doit pas dépasser les 50 caractères")]
+        [StringLength(100, ErrorMessage = "La longueur du nom ne doit pas dépasser les 100 caractères")]
         public string Nom { get; set; } = null!;
 
         [Required(ErrorMessage = "L'id du pays de la ville est requis")]

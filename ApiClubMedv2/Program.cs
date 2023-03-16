@@ -112,6 +112,7 @@ namespace ApiClubMedv2
             app.MapControllers();
 
             app.Run();
+
         }
     }
 }

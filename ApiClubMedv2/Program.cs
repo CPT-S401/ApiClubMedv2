@@ -72,6 +72,14 @@ namespace ApiClubMedv2
 
             var app = builder.Build();
 
+            app.UseCors(options =>
+            {
+                options.AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials();
+            });
+
             // Configure the HTTP request pipeline.
 
             if (!app.Environment.IsDevelopment())

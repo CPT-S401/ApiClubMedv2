@@ -12,11 +12,11 @@ namespace ApiClubMedv2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeTypeActivitesController : ControllerBase
+    public class TypeActivitesController : ControllerBase
     {
         private readonly IDataRepository<TypeActivite> _dataRepository;
 
-        public TypeTypeActivitesController(IDataRepository<TypeActivite> dataRepository)
+        public TypeActivitesController(IDataRepository<TypeActivite> dataRepository)
         {
             _dataRepository = dataRepository;
         }

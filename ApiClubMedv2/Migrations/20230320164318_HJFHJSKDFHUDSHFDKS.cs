@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace ApiClubMedv2.Migrations
 {
-    public partial class CreationBdClubMedS3 : Migration
+    public partial class HJFHJSKDFHUDSHFDKS : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -142,6 +143,7 @@ namespace ApiClubMedv2.Migrations
 
             migrationBuilder.CreateTable(
                 name: "t_e_typeactivite_tac",
+                schema: "clubmed",
                 columns: table => new
                 {
                     tac_id = table.Column<int>(type: "integer", nullable: false)
@@ -152,6 +154,25 @@ namespace ApiClubMedv2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_typeactivite_tac", x => x.tac_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_typechambre_tch",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    tch_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    tch_idclub = table.Column<int>(type: "integer", nullable: false),
+                    tch_nom = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
+                    tch_description = table.Column<string>(type: "text", nullable: true),
+                    tch_prix = table.Column<decimal>(type: "numeric(7,2)", nullable: false),
+                    tch_surface = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_typechambre_tch", x => x.tch_id);
+                    table.CheckConstraint("ck_tch_prix", "tch_prix > 0");
                 });
 
             migrationBuilder.CreateTable(
@@ -166,6 +187,36 @@ namespace ApiClubMedv2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_typeclub_tcl", x => x.tcl_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_client_clt",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    clt_idclient = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    clt_genreclient = table.Column<string>(type: "char(10)", maxLength: 10, nullable: false),
+                    clt_prenomclient = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    clt_nomclient = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    clt_datenaissance = table.Column<DateTime>(type: "date", nullable: false),
+                    clt_email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    clt_mobile = table.Column<string>(type: "char(10)", maxLength: 10, nullable: false),
+                    clt_password = table.Column<string>(type: "text", nullable: false),
+                    clt_numrue = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    clt_nomrue = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    clt_idcodepostal = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_client_clt", x => x.clt_idclient);
+                    table.ForeignKey(
+                        name: "FK_t_e_client_clt_t_e_codepostal_cpl_clt_idcodepostal",
+                        column: x => x.clt_idcodepostal,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_codepostal_cpl",
+                        principalColumn: "cpl_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -201,7 +252,7 @@ namespace ApiClubMedv2.Migrations
                 {
                     vil_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    vil_nom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    vil_nom = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     vil_idpays = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -253,18 +304,50 @@ namespace ApiClubMedv2.Migrations
                     act_agemin = table.Column<int>(type: "integer", nullable: true),
                     act_duree = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     act_prix = table.Column<decimal>(type: "numeric(7,2)", nullable: true),
+                    act_frequence = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     act_estincluse = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_activite_act", x => x.act_id);
-                    table.CheckConstraint("ck_act_agemin", "act_agemin > 0");
-                    table.CheckConstraint("ck_act_prix", "act_prix > 0");
+                    table.CheckConstraint("ck_act_agemin", "act_agemin >= 0");
+                    table.CheckConstraint("ck_act_prix", "act_prix >= 0");
                     table.ForeignKey(
                         name: "fk_act_tac",
                         column: x => x.act_idtypeactivite,
+                        principalSchema: "clubmed",
                         principalTable: "t_e_typeactivite_tac",
                         principalColumn: "tac_id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_avis_avi",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    avi_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    avi_idclient = table.Column<int>(type: "integer", nullable: false),
+                    avi_idclub = table.Column<int>(type: "integer", nullable: false),
+                    avi_note = table.Column<int>(type: "integer", nullable: false),
+                    avi_commentaire = table.Column<string>(type: "text", nullable: true),
+                    avi_dateenvoi = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_avis_avi", x => x.avi_id);
+                    table.ForeignKey(
+                        name: "fk_clb_avi",
+                        column: x => x.avi_idclient,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_club_clb",
+                        principalColumn: "clb_id");
+                    table.ForeignKey(
+                        name: "fk_clt_avi",
+                        column: x => x.avi_idclient,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_client_clt",
+                        principalColumn: "clt_idclient");
                 });
 
             migrationBuilder.CreateTable(
@@ -290,7 +373,52 @@ namespace ApiClubMedv2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_e_reservation_rea",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    rea_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    rea_idclient = table.Column<int>(type: "integer", nullable: false),
+                    rea_idtransport = table.Column<int>(type: "integer", nullable: true),
+                    rea_idclub = table.Column<int>(type: "integer", nullable: false),
+                    rea_idtypechambre = table.Column<int>(type: "integer", nullable: false),
+                    rea_datedebut = table.Column<DateTime>(type: "date", nullable: false),
+                    rea_datefin = table.Column<DateTime>(type: "date", nullable: false),
+                    rea_date = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_reservation_rea", x => x.rea_id);
+                    table.ForeignKey(
+                        name: "fk_clb_rea",
+                        column: x => x.rea_idclub,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_club_clb",
+                        principalColumn: "clb_id");
+                    table.ForeignKey(
+                        name: "fk_clt_rea",
+                        column: x => x.rea_idclient,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_client_clt",
+                        principalColumn: "clt_idclient");
+                    table.ForeignKey(
+                        name: "fk_tch_rea",
+                        column: x => x.rea_idtypechambre,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_typechambre_tch",
+                        principalColumn: "tch_id");
+                    table.ForeignKey(
+                        name: "fk_trp_rea",
+                        column: x => x.rea_idtransport,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_transport_trp",
+                        principalColumn: "trp_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_e_restaurant_ret",
+                schema: "clubmed",
                 columns: table => new
                 {
                     res_id = table.Column<int>(type: "integer", nullable: false)
@@ -418,25 +546,75 @@ namespace ApiClubMedv2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_j_clubtypechambre_cth",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    cth_idclub = table.Column<int>(type: "integer", nullable: false),
+                    cth_idtypechambre = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_j_clubtypechambre_cth", x => new { x.cth_idclub, x.cth_idtypechambre });
+                    table.ForeignKey(
+                        name: "fk_clb_cth",
+                        column: x => x.cth_idclub,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_club_clb",
+                        principalColumn: "clb_id");
+                    table.ForeignKey(
+                        name: "fk_tch_cth",
+                        column: x => x.cth_idtypechambre,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_typechambre_tch",
+                        principalColumn: "tch_id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_j_clubtypeclub_ctc",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    ctc_idclub = table.Column<int>(type: "integer", nullable: false),
+                    ctc_idtypeclub = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_j_clubtypeclub_ctc", x => new { x.ctc_idclub, x.ctc_idtypeclub });
+                    table.ForeignKey(
+                        name: "fk_clb_ctc",
+                        column: x => x.ctc_idclub,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_club_clb",
+                        principalColumn: "clb_id");
+                    table.ForeignKey(
+                        name: "fk_tcl_ctc",
+                        column: x => x.ctc_idtypeclub,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_typeclub_tcl",
+                        principalColumn: "tcl_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_j_villecodepostal_vcp",
                 schema: "clubmed",
                 columns: table => new
                 {
-                    rmt_idrestaurant = table.Column<int>(type: "integer", nullable: false),
-                    rmt_idmultimedia = table.Column<int>(type: "integer", nullable: false)
+                    vcp_idville = table.Column<int>(type: "integer", nullable: false),
+                    vcp_idcodepostal = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_j_villecodepostal_vcp", x => new { x.rmt_idrestaurant, x.rmt_idmultimedia });
+                    table.PrimaryKey("PK_t_j_villecodepostal_vcp", x => new { x.vcp_idville, x.vcp_idcodepostal });
                     table.ForeignKey(
                         name: "fk_cpl_vcp",
-                        column: x => x.rmt_idmultimedia,
+                        column: x => x.vcp_idcodepostal,
                         principalSchema: "clubmed",
                         principalTable: "t_e_codepostal_cpl",
                         principalColumn: "cpl_id");
                     table.ForeignKey(
                         name: "fk_vil_vcp",
-                        column: x => x.rmt_idrestaurant,
+                        column: x => x.vcp_idville,
                         principalSchema: "clubmed",
                         principalTable: "t_e_ville_vil",
                         principalColumn: "vil_id");
@@ -488,6 +666,31 @@ namespace ApiClubMedv2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_j_avismultimedia_amt",
+                schema: "clubmed",
+                columns: table => new
+                {
+                    amt_idavis = table.Column<int>(type: "integer", nullable: false),
+                    amt_idmultimedia = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_j_avismultimedia_amt", x => new { x.amt_idavis, x.amt_idmultimedia });
+                    table.ForeignKey(
+                        name: "fk_avi_amt",
+                        column: x => x.amt_idavis,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_avis_avi",
+                        principalColumn: "avi_id");
+                    table.ForeignKey(
+                        name: "fk_mtm_amt",
+                        column: x => x.amt_idmultimedia,
+                        principalSchema: "clubmed",
+                        principalTable: "t_e_multimedia_mtm",
+                        principalColumn: "mtm_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_j_barmultimedia_bmt",
                 schema: "clubmed",
                 columns: table => new
@@ -532,6 +735,7 @@ namespace ApiClubMedv2.Migrations
                     table.ForeignKey(
                         name: "fk_ret_rmt",
                         column: x => x.rmt_idrestaurant,
+                        principalSchema: "clubmed",
                         principalTable: "t_e_restaurant_ret",
                         principalColumn: "res_id");
                 });
@@ -568,10 +772,36 @@ namespace ApiClubMedv2.Migrations
                 column: "act_idtypeactivite");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_e_avis_avi_avi_idclient",
+                schema: "clubmed",
+                table: "t_e_avis_avi",
+                column: "avi_idclient");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_e_bar_bar_res_idclub",
                 schema: "clubmed",
                 table: "t_e_bar_bar",
                 column: "res_idclub");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_client_clt_clt_email",
+                schema: "clubmed",
+                table: "t_e_client_clt",
+                column: "clt_email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_client_clt_clt_idcodepostal",
+                schema: "clubmed",
+                table: "t_e_client_clt",
+                column: "clt_idcodepostal");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_client_clt_clt_mobile",
+                schema: "clubmed",
+                table: "t_e_client_clt",
+                column: "clt_mobile",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_e_club_clb_clb_email",
@@ -587,7 +817,32 @@ namespace ApiClubMedv2.Migrations
                 column: "clb_iddomaineskiable");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_e_reservation_rea_rea_idclient",
+                schema: "clubmed",
+                table: "t_e_reservation_rea",
+                column: "rea_idclient");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_reservation_rea_rea_idclub",
+                schema: "clubmed",
+                table: "t_e_reservation_rea",
+                column: "rea_idclub");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_reservation_rea_rea_idtransport",
+                schema: "clubmed",
+                table: "t_e_reservation_rea",
+                column: "rea_idtransport");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_reservation_rea_rea_idtypechambre",
+                schema: "clubmed",
+                table: "t_e_reservation_rea",
+                column: "rea_idtypechambre");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_e_restaurant_ret_res_idclub",
+                schema: "clubmed",
                 table: "t_e_restaurant_ret",
                 column: "res_idclub");
 
@@ -596,6 +851,12 @@ namespace ApiClubMedv2.Migrations
                 schema: "clubmed",
                 table: "t_e_ville_vil",
                 column: "vil_idpays");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_j_avismultimedia_amt_amt_idmultimedia",
+                schema: "clubmed",
+                table: "t_j_avismultimedia_amt",
+                column: "amt_idmultimedia");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_j_barmultimedia_bmt_bmt_idmultimedia",
@@ -646,6 +907,18 @@ namespace ApiClubMedv2.Migrations
                 column: "ctr_idtransport");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_j_clubtypechambre_cth_cth_idtypechambre",
+                schema: "clubmed",
+                table: "t_j_clubtypechambre_cth",
+                column: "cth_idtypechambre");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_j_clubtypeclub_ctc_ctc_idtypeclub",
+                schema: "clubmed",
+                table: "t_j_clubtypeclub_ctc",
+                column: "ctc_idtypeclub");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_j_payslocalisation_pal_pal_idlocalisation",
                 schema: "clubmed",
                 table: "t_j_payslocalisation_pal",
@@ -658,10 +931,10 @@ namespace ApiClubMedv2.Migrations
                 column: "rmt_idmultimedia");
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_j_villecodepostal_vcp_rmt_idmultimedia",
+                name: "IX_t_j_villecodepostal_vcp_vcp_idcodepostal",
                 schema: "clubmed",
                 table: "t_j_villecodepostal_vcp",
-                column: "rmt_idmultimedia");
+                column: "vcp_idcodepostal");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -671,7 +944,11 @@ namespace ApiClubMedv2.Migrations
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
-                name: "t_e_typeclub_tcl",
+                name: "t_e_reservation_rea",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
+                name: "t_j_avismultimedia_amt",
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
@@ -703,6 +980,14 @@ namespace ApiClubMedv2.Migrations
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
+                name: "t_j_clubtypechambre_cth",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
+                name: "t_j_clubtypeclub_ctc",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
                 name: "t_j_payslocalisation_pal",
                 schema: "clubmed");
 
@@ -712,6 +997,10 @@ namespace ApiClubMedv2.Migrations
 
             migrationBuilder.DropTable(
                 name: "t_j_villecodepostal_vcp",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
+                name: "t_e_avis_avi",
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
@@ -731,6 +1020,14 @@ namespace ApiClubMedv2.Migrations
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
+                name: "t_e_typechambre_tch",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
+                name: "t_e_typeclub_tcl",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
                 name: "t_e_localisation_loc",
                 schema: "clubmed");
 
@@ -739,14 +1036,15 @@ namespace ApiClubMedv2.Migrations
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
-                name: "t_e_restaurant_ret");
-
-            migrationBuilder.DropTable(
-                name: "t_e_codepostal_cpl",
+                name: "t_e_restaurant_ret",
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
                 name: "t_e_ville_vil",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
+                name: "t_e_client_clt",
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
@@ -762,7 +1060,12 @@ namespace ApiClubMedv2.Migrations
                 schema: "clubmed");
 
             migrationBuilder.DropTable(
-                name: "t_e_typeactivite_tac");
+                name: "t_e_codepostal_cpl",
+                schema: "clubmed");
+
+            migrationBuilder.DropTable(
+                name: "t_e_typeactivite_tac",
+                schema: "clubmed");
 
             migrationBuilder.DropTable(
                 name: "t_e_domaineskiable_dsk",

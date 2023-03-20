@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiClubMedv2.Migrations
 {
     [DbContext(typeof(ClubMedDbContext))]
-    [Migration("20230314101706_AjoutDesTablesSupplementairesPrLaBddA")]
-    partial class AjoutDesTablesSupplementairesPrLaBddA
+    [Migration("20230320164429_HJFHJSKDFHUDSHFDKS4L0")]
+    partial class HJFHJSKDFHUDSHFDKS4L0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,6 +125,11 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("act_estincluse");
 
+                    b.Property<string>("Frequence")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("act_frequence");
+
                     b.Property<int>("IdTypeActivite")
                         .HasColumnType("integer")
                         .HasColumnName("act_idtypeactivite");
@@ -145,9 +150,9 @@ namespace ApiClubMedv2.Migrations
 
                     b.ToTable("t_e_activite_act", "clubmed");
 
-                    b.HasCheckConstraint("ck_act_agemin", "act_agemin > 0");
+                    b.HasCheckConstraint("ck_act_agemin", "act_agemin >= 0");
 
-                    b.HasCheckConstraint("ck_act_prix", "act_prix > 0");
+                    b.HasCheckConstraint("ck_act_prix", "act_prix >= 0");
                 });
 
             modelBuilder.Entity("ApiClubMedv2.Models.EntityFramework.Avis", b =>
@@ -838,7 +843,7 @@ namespace ApiClubMedv2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypesChambre");
+                    b.ToTable("t_e_typechambre_tch", "clubmed");
 
                     b.HasCheckConstraint("ck_tch_prix", "tch_prix > 0");
                 });
@@ -878,8 +883,8 @@ namespace ApiClubMedv2.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("vil_nom");
 
                     b.HasKey("Id");
@@ -893,11 +898,11 @@ namespace ApiClubMedv2.Migrations
                 {
                     b.Property<int>("IdVille")
                         .HasColumnType("integer")
-                        .HasColumnName("rmt_idrestaurant");
+                        .HasColumnName("vcp_idville");
 
                     b.Property<int>("IdCodePostal")
                         .HasColumnType("integer")
-                        .HasColumnName("rmt_idmultimedia");
+                        .HasColumnName("vcp_idcodepostal");
 
                     b.HasKey("IdVille", "IdCodePostal");
 
@@ -916,9 +921,9 @@ namespace ApiClubMedv2.Migrations
 
                     b.ToTable("t_e_activiteenfant_ace", "clubmed");
 
-                    b.HasCheckConstraint("ck_act_agemin", "act_agemin > 0");
+                    b.HasCheckConstraint("ck_act_agemin", "act_agemin >= 0");
 
-                    b.HasCheckConstraint("ck_act_prix", "act_prix > 0");
+                    b.HasCheckConstraint("ck_act_prix", "act_prix >= 0");
                 });
 
             modelBuilder.Entity("APIClubMed.Models.Client", b =>

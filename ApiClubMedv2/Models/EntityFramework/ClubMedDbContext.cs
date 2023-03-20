@@ -97,10 +97,10 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_act_tac");
 
                 entity
-                    .HasCheckConstraint("ck_act_agemin", "act_agemin > 0");
+                    .HasCheckConstraint("ck_act_agemin", "act_agemin >= 0");
 
                 entity
-                    .HasCheckConstraint("ck_act_prix", "act_prix > 0");
+                    .HasCheckConstraint("ck_act_prix", "act_prix >= 0");
             });
 
             modelBuilder.Entity<Ville>(entity =>

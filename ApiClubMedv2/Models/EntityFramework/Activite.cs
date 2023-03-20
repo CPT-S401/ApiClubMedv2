@@ -10,6 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         {
             ClubActivites = new HashSet<ClubActivite>();
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("act_id")]
@@ -36,6 +37,10 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [Column("act_prix", TypeName = "numeric(7,2)")]
         public double? Prix { get; set; }
+
+        [Column("act_frequence")]
+        [StringLength(100, ErrorMessage = "La longueur de la fréquence de l'activité ne doit pas dépasser 100 caractères")]
+        public string? Frequence { get; set; }
 
         [Required(ErrorMessage = "Vous devez renseigner si l'activité est incluse dans le séjour")]
         [Column("act_estincluse")]

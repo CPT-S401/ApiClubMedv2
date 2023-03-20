@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClubMedv2.Models.EntityFramework
 {
+    [Table("t_e_typechambre_tch", Schema = "clubmed")]
     public class TypeChambre
     {
         public TypeChambre()

@@ -28,7 +28,7 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [Required(ErrorMessage = "Le lien du fichier multimedia est requis")]
         [Column("mtm_lien", TypeName = "varchar(200)")]
-        [StringLength(200, ErrorMessage = "Le nom du fichier multimedia ne peut dépasser 200 caractères")]
+        [StringLength(300, ErrorMessage = "Le nom du fichier multimedia ne peut dépasser 200 caractères")]
         public string Lien { get; set; } = null!;
 
         [InverseProperty("Multimedia")]

@@ -1,10 +1,11 @@
 ﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
-    public class ActiviteManager : IDataRepository<Activite>
+    public class ActiviteManager : IDataRepositoryActivite<Activite>
     {
         private readonly ClubMedDbContext clubMedDbContext;
 
@@ -16,6 +17,40 @@ namespace ApiClubMedv2.Models.DataManager
         public ActionResult<IEnumerable<Activite>> GetAll()
         {
             return clubMedDbContext.Activites.ToList();
+        }
+
+        public ActionResult<IEnumerable<Activite>> GetActivitiesByClub(int idClub)
+        {
+            return new JsonResult(clubMedDbContext.Activites
+                    .Include(cA => cA.ClubActivites)
+                        .ThenInclude(c => c.Club)
+                    .Where(cA => cA.ClubActivites
+                        .Any(pl => pl.Club.Id == idClub))
+                    .Select(c => new
+                        {
+                            c.Id,
+                            NomActivite = c.Nom,
+                            NomTypeActivite = c.TypeActivite.Nom,
+                            c.Description,
+                            c.AgeMin,
+                            c.Duree,
+                            c.Prix,
+                            c.EstIncluse,
+                        }
+                    )
+                );
+
+            /* A TESTER 
+
+                                .Include(cA => cA.ClubActivites)
+                        .ThenInclude(c => c.Club)
+                    .Include(cA => cA.ActivitesEnfant)
+                        .ThenInclude(c => c.ClubEnfant)
+                    .Where(cA => cA.ClubActivites
+                        .Any(pl => pl.Club.Id == idClub)
+                        || cA.ActivitesEnfant
+                            .Any(ae => ae.ClubEnfant.Id == idClub))
+            */
         }
 
         public ActionResult<Activite> GetById(int id)

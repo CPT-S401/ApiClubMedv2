@@ -14,9 +14,9 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class ActivitesController : ControllerBase
     {
-        private readonly IDataRepository<Activite> _dataRepository;
+        private readonly IDataRepositoryActivite<Activite> _dataRepository;
 
-        public ActivitesController(IDataRepository<Activite> dataRepository)
+        public ActivitesController(IDataRepositoryActivite<Activite> dataRepository)
         {
             _dataRepository = dataRepository;
         }
@@ -28,7 +28,7 @@ namespace ApiClubMedv2.Controllers
             return _dataRepository.GetAll();
         }
 
-        // GET : api/Clubs/1
+        // GET : api/Activites/1
         [HttpGet]
         [Route("[action]/{id}")]
         [ActionName("GetById")]
@@ -45,7 +45,7 @@ namespace ApiClubMedv2.Controllers
             return activite;
         }
 
-        // GET : api/Clubs/la_plagne
+        // GET : api/Activites/la_plagne
         [HttpGet]
         [Route("[action]/{name}")]
         [ActionName("GetByName")]
@@ -114,6 +114,14 @@ namespace ApiClubMedv2.Controllers
             }
             _dataRepository.Delete(activite.Value);
             return NoContent();
+        }
+
+        // GET : api/Activites/GetActivitiesByClub
+        [HttpGet]
+        [Route("[action]/{idClub}")]
+        public async Task<ActionResult<IEnumerable<Activite>>> GetActivitiesByClub(int idClub)
+        {
+            return _dataRepository.GetActivitiesByClub(idClub);
         }
     }
 }

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {}
+    "C:\\Users\\damat\\OneDrive - Université Savoie Mont Blanc\\Cours\\Code\\2e annee\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {
+    "C:\\Users\\damat\\OneDrive - Université Savoie Mont Blanc\\Cours\\Code\\2e annee\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+        "projectUniqueName": "C:\\Users\\damat\\OneDrive - Université Savoie Mont Blanc\\Cours\\Code\\2e annee\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
         "projectName": "ApiClubMedv2",
-        "projectPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
-        "packagesPath": "C:\\Users\\trompiec\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
+        "projectPath": "C:\\Users\\damat\\OneDrive - Université Savoie Mont Blanc\\Cours\\Code\\2e annee\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+        "packagesPath": "C:\\Users\\damat\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\damat\\OneDrive - Université Savoie Mont Blanc\\Cours\\Code\\2e annee\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\trompiec\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\damat\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -98,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

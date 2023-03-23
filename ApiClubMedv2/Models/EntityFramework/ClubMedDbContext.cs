@@ -24,6 +24,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Restaurant> Restaurants { get; set; } = null!;
         public virtual DbSet<Ville> Villes { get; set; } = null!;
         public virtual DbSet<Pays> Pays { get; set; } = null!;
+        public virtual DbSet<ClubPaysLocalisation> ClubPaysLocalisations { get; set; } = null!;
         public virtual DbSet<CodePostal> CodesPostaux { get; set; } = null!;
         public virtual DbSet<Localisation> Localisations { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;

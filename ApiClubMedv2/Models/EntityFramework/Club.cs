@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ApiClubMedv2.Models.EntityFramework
 {
     [Table("t_e_club_clb", Schema = "clubmed")]
-    public class Club
+    public partial class Club
     {
         public Club()
         {

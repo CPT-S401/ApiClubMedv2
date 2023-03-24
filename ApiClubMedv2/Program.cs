@@ -15,7 +15,7 @@ namespace ApiClubMedv2
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
+            builder.Services.AddScoped<IDataRepositoryClub<Club>, ClubManager>();
             builder.Services.AddScoped<IDataRepository<TypeClub>, TypeClubManager>();
             builder.Services.AddScoped<IDataRepository<TypeChambre>, TypeChambreManager>();
             builder.Services.AddScoped<IDataRepository<DomaineSkiable>, DomaineSkiableManager>();
@@ -23,7 +23,7 @@ namespace ApiClubMedv2
             builder.Services.AddScoped<IDataRepository<Transport>, TransportManager>();
             builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueManager>();
             builder.Services.AddScoped<IDataRepository<Cookie>, CookieManager>();
-            builder.Services.AddScoped<IDataRepository<Activite>, ActiviteManager>();
+            builder.Services.AddScoped<IDataRepositoryActivite<Activite>, ActiviteManager>();
             builder.Services.AddScoped<IDataRepository<ActiviteEnfant>, ActiviteEnfantManager>();
             builder.Services.AddScoped<IDataRepository<TypeActivite>, TypeActiviteManager>();
             builder.Services.AddScoped<IDataRepository<Bar>, BarManager>();

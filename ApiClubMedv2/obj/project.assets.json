@@ -10416,23 +10416,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\trompiec\\.nuget\\packages\\": {},
+    "C:\\Users\\dasmathe\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+      "projectUniqueName": "C:\\Users\\dasmathe\\Source\\Repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
       "projectName": "ApiClubMedv2",
-      "projectPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
-      "packagesPath": "C:\\Users\\trompiec\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\trompiec\\Desktop\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
+      "projectPath": "C:\\Users\\dasmathe\\Source\\Repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+      "packagesPath": "C:\\Users\\dasmathe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dasmathe\\Source\\Repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\trompiec\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\dasmathe\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

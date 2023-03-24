@@ -15,9 +15,9 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class ClubsController : ControllerBase
     {
-        private readonly IDataRepository<Club> _dataRepository;
+        private readonly IDataRepositoryClub<Club> _dataRepository;
 
-        public ClubsController(IDataRepository<Club> dataRepository)
+        public ClubsController(IDataRepositoryClub<Club> dataRepository)
         {
             _dataRepository = dataRepository;
         }
@@ -115,6 +115,14 @@ namespace ApiClubMedv2.Controllers
             }
             _dataRepository.Delete(club.Value);
             return NoContent();
+        }
+
+        // GET : api/Clubs/GetClubsByCountry
+        [HttpGet]
+        [Route("[action]/{nameCountry}")]
+        public async Task<ActionResult<IEnumerable<Club>>> GetClubsByCountry(string nameCountry)
+        {
+            return _dataRepository.GetClubsByCountry(nameCountry);
         }
     }
 }

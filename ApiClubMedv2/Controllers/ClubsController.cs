@@ -119,10 +119,10 @@ namespace ApiClubMedv2.Controllers
 
         // GET : api/Clubs/GetClubsByCountry
         [HttpGet]
-        [Route("[action]/{nomPays}")]
-        public async Task<ActionResult<IEnumerable<Club>>> GetClubsByCountry(string nomPays)
+        [Route("[action]/{nameCountry}")]
+        public async Task<ActionResult<IEnumerable<Club>>> GetClubsByCountry(string nameCountry)
         {
-            return _dataRepository.GetClubsByCountry(nomPays);
+            return _dataRepository.GetClubsByCountry(nameCountry);
         }
     }
 }

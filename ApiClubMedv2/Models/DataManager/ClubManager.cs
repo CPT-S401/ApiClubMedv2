@@ -30,7 +30,8 @@ namespace ApiClubMedv2.Models.DataManager
                     .Include(c => c.ClubPaysLocalisations)
                         .ThenInclude(pl => pl.Pays)
                     .Where(c => c.ClubPaysLocalisations
-                        .Any(pl => pl.Pays.Nom == nameCountry))
+                        .Any(pl => pl.Pays.Nom.ToUpper() == nameCountry.ToUpper())
+                    )
                     .Select(c => new
                         {
                             c.Id,
@@ -51,7 +52,7 @@ namespace ApiClubMedv2.Models.DataManager
                                on pays.Id equals clubPaysLocalisation.IdPays
                          join club in clubMedDbContext.Set<Club>()
                                on clubPaysLocalisation.IdClub equals club.Id
-                         where pays.Nom == nomPays
+                         where pays.Nom == nameCountry
                          select club).Distinct().ToList();*/
         }
 

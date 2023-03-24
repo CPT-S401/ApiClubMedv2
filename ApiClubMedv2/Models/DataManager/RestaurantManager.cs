@@ -73,8 +73,13 @@ namespace ApiClubMedv2.Models.DataManager
                          r.Id,
                          r.Nom,
                          r.Description,
-                         r.RestaurantMultimedias,
-                     }
+                         Multimedia = r.RestaurantMultimedias.Select(m => new
+                         {
+                             m.Multimedia.Id,
+                             m.Multimedia.Nom,
+                             m.Multimedia.Lien,
+                         }).ToList()
+                    }
                  )
             );
         }

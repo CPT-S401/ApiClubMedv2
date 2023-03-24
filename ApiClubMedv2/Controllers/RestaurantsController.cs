@@ -14,21 +14,38 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class RestaurantsController : ControllerBase
     {
-        private readonly IDataRepository<Restaurant> _dataRepository;
+        private readonly IDataRepositoryJoin<Restaurant> _dataRepository;
 
-        public RestaurantsController(IDataRepository<Restaurant> dataRepository)
+        public RestaurantsController(IDataRepositoryJoin<Restaurant> dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
-        // GET : api/Clubs
+        // GET : api/Restaurants
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
             return _dataRepository.GetAll();
         }
 
-        // GET : api/Clubs/1
+        // GET : api/Restaurants/GetRestaurantsByClub
+        [HttpGet]
+        [Route("[action]/{idClub}")]
+        [ActionName("GetRestaurantsByClub")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurantsByClub(int idClub)
+        {
+            var restaurants = _dataRepository.GetIdByTable(idClub);
+
+            if (restaurants == null)
+            {
+                return NotFound();
+            }
+            return restaurants;
+        }
+
+        // GET : api/Restaurant/1
         [HttpGet]
         [Route("[action]/{id}")]
         [ActionName("GetById")]
@@ -45,7 +62,7 @@ namespace ApiClubMedv2.Controllers
             return restaurant;
         }
 
-        // GET : api/Clubs/la_plagne
+        // GET : api/Restaurant/la_plagne
         [HttpGet]
         [Route("[action]/{name}")]
         [ActionName("GetByName")]
@@ -62,7 +79,7 @@ namespace ApiClubMedv2.Controllers
             return restaurant;
         }
 
-        // PUT: api/Clubs/5
+        // PUT: api/Restaurant/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -86,7 +103,7 @@ namespace ApiClubMedv2.Controllers
             }
         }
 
-        // POST: api/Clubs
+        // POST: api/Restaurant
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -101,7 +118,7 @@ namespace ApiClubMedv2.Controllers
             return CreatedAtAction("GetById", new { id = restaurant.Id }, restaurant);
         }
 
-        // DELETE: api/Clubs/5
+        // DELETE: api/Restaurant/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

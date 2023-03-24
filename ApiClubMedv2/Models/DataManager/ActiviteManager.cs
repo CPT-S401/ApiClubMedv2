@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
-    public class ActiviteManager : IDataRepositoryActivite<Activite>
+    public class ActiviteManager : IDataRepositoryJoin<Activite>
     {
         private readonly ClubMedDbContext clubMedDbContext;
 
@@ -19,7 +19,7 @@ namespace ApiClubMedv2.Models.DataManager
             return clubMedDbContext.Activites.ToList();
         }
 
-        public ActionResult<IEnumerable<Activite>> GetActivitiesByClub(int idClub)
+        public ActionResult<IEnumerable<Activite>> GetIdByTable(int idClub)
         {
             return new JsonResult(clubMedDbContext.Activites
                     .Include(cA => cA.ClubActivites)
@@ -98,6 +98,11 @@ namespace ApiClubMedv2.Models.DataManager
         {
             clubMedDbContext.Activites.Remove(entity);
             clubMedDbContext.SaveChanges();
+        }
+
+        public ActionResult<IEnumerable<Activite>> GetStringByTable(string stringTable)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -2,8 +2,9 @@
 
 namespace ApiClubMedv2.Models.Repository
 {
-    public interface IDataRepositoryActivite<TEntity> : IDataRepository<TEntity>
+    public interface IDataRepositoryJoin<TEntity> : IDataRepository<TEntity>
     {
-        ActionResult<IEnumerable<TEntity>> GetActivitiesByClub(int idClub);
+        ActionResult<IEnumerable<TEntity>> GetIdByTable(int idTable);
+        ActionResult<IEnumerable<TEntity>> GetStringByTable(string stringTable);
     }
 }

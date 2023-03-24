@@ -1,10 +1,11 @@
 ﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
-    public class BarManager : IDataRepository<Bar>
+    public class BarManager : IDataRepositoryJoin<Bar>
     {
         private readonly ClubMedDbContext clubMedDbContext;
 
@@ -18,6 +19,29 @@ namespace ApiClubMedv2.Models.DataManager
             return clubMedDbContext.Bars.ToList();
         }
 
+        public ActionResult<IEnumerable<Bar>> GetIdByTable(int idClub)
+        {
+            return new JsonResult(clubMedDbContext.Bars
+                    .Where(b => b.IdClub == idClub)
+                    .Include(bm => bm.BarMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+                    .Select(b => new
+                        {
+                            b.Id,
+                            b.Nom,
+                            b.Description,
+                            Multimedia = b.BarMultimedias.Select(m => new
+                                {
+                                    m.Multimedia.Id,
+                                    m.Multimedia.Nom,
+                                    m.Multimedia.Lien,
+                                }
+                            ).ToList()
+                        }
+                   )
+            );
+        }
+        
         public ActionResult<Bar> GetById(int id)
         {
             var bar = clubMedDbContext.Bars.Find(id);
@@ -60,6 +84,11 @@ namespace ApiClubMedv2.Models.DataManager
         {
             clubMedDbContext.Bars.Remove(entity);
             clubMedDbContext.SaveChanges();
+        }
+
+        public ActionResult<IEnumerable<Bar>> GetStringByTable(string stringTable)
+        {
+            throw new NotImplementedException();
         }
     }
 }

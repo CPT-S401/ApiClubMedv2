@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace ApiClubMedv2.Models.DataManager
 {
-    public class ClubManager : IDataRepositoryClub<Club>
+    public class ClubManager : IDataRepositoryJoin<Club>
     {
         private readonly ClubMedDbContext clubMedDbContext;
 
@@ -24,7 +24,7 @@ namespace ApiClubMedv2.Models.DataManager
             return clubMedDbContext.Clubs.ToList();
         }
 
-        public ActionResult<IEnumerable<Club>> GetClubsByCountry(string nameCountry)
+        public ActionResult<IEnumerable<Club>> GetStringByTable(string nameCountry)
         {
             return new JsonResult(clubMedDbContext.Clubs
                     .Include(c => c.ClubPaysLocalisations)
@@ -104,6 +104,10 @@ namespace ApiClubMedv2.Models.DataManager
             clubMedDbContext.Clubs.Remove(entity);
             clubMedDbContext.SaveChanges();
         }
-    }
 
+        public ActionResult<IEnumerable<Club>> GetIdByTable(int idTable)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

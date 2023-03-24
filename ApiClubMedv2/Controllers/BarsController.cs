@@ -14,9 +14,9 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class BarsController : ControllerBase
     {
-        private readonly IDataRepository<Bar> _dataRepository;
+        private readonly IDataRepositoryJoin<Bar> _dataRepository;
 
-        public BarsController(IDataRepository<Bar> dataRepository)
+        public BarsController(IDataRepositoryJoin<Bar> dataRepository)
         {
             _dataRepository = dataRepository;
         }
@@ -26,6 +26,23 @@ namespace ApiClubMedv2.Controllers
         public async Task<ActionResult<IEnumerable<Bar>>> GetBars()
         {
             return _dataRepository.GetAll();
+        }
+
+        // GET : api/Bars/GetBarsByClub
+        [HttpGet]
+        [Route("[action]/{idClub}")]
+        [ActionName("GetBarsByClub")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Bar>>> GetBarsByClub(int idClub)
+        {
+            var bars = _dataRepository.GetIdByTable(idClub);
+
+            if (bars == null)
+            {
+                return NotFound();
+            }
+            return bars;
         }
 
         // GET : api/Clubs/1

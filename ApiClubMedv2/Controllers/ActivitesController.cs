@@ -14,14 +14,14 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class ActivitesController : ControllerBase
     {
-        private readonly IDataRepositoryActivite<Activite> _dataRepository;
+        private readonly IDataRepositoryJoin<Activite> _dataRepository;
 
-        public ActivitesController(IDataRepositoryActivite<Activite> dataRepository)
+        public ActivitesController(IDataRepositoryJoin<Activite> dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
-        // GET : api/Clubs
+        // GET : api/Activites
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Activite>>> GetActivites()
         {
@@ -62,7 +62,7 @@ namespace ApiClubMedv2.Controllers
             return activite;
         }
 
-        // PUT: api/Clubs/5
+        // PUT: api/Activites/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -86,7 +86,7 @@ namespace ApiClubMedv2.Controllers
             }
         }
 
-        // POST: api/Clubs
+        // POST: api/Activites
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -101,7 +101,7 @@ namespace ApiClubMedv2.Controllers
             return CreatedAtAction("GetById", new { id = activite.Id }, activite);
         }
 
-        // DELETE: api/Clubs/5
+        // DELETE: api/Activites/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -119,9 +119,18 @@ namespace ApiClubMedv2.Controllers
         // GET : api/Activites/GetActivitiesByClub
         [HttpGet]
         [Route("[action]/{idClub}")]
+        [ActionName("GetActivitiesByClub")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Activite>>> GetActivitiesByClub(int idClub)
         {
-            return _dataRepository.GetActivitiesByClub(idClub);
+            var activites = _dataRepository.GetIdByTable(idClub);
+
+            if (activites == null)
+            {
+                return NotFound();
+            }
+            return activites;
         }
     }
 }

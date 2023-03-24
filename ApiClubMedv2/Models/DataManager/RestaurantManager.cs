@@ -1,10 +1,11 @@
 ﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
-    public class RestaurantManager : IDataRepository<Restaurant>
+    public class RestaurantManager : IDataRepositoryJoin<Restaurant>
     {
         private readonly ClubMedDbContext clubMedDbContext;
 
@@ -60,6 +61,27 @@ namespace ApiClubMedv2.Models.DataManager
         {
             clubMedDbContext.Restaurants.Remove(entity);
             clubMedDbContext.SaveChanges();
+        }
+
+        public ActionResult<IEnumerable<Restaurant>> GetIdByTable(int idClub)
+        {
+            return new JsonResult(clubMedDbContext.Restaurants
+                 .Include(c => c.Club)
+                 .Where(r => r.Club.Id == idClub)
+                 .Select(r => new
+                     {
+                         r.Id,
+                         r.Nom,
+                         r.Description,
+                         r.RestaurantMultimedias,
+                     }
+                 )
+            );
+        }
+
+        public ActionResult<IEnumerable<Restaurant>> GetStringByTable(string stringTable)
+        {
+            throw new NotImplementedException();
         }
     }
 }

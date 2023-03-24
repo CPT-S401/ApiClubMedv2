@@ -15,9 +15,9 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class ClubsController : ControllerBase
     {
-        private readonly IDataRepositoryClub<Club> _dataRepository;
+        private readonly IDataRepositoryJoin<Club> _dataRepository;
 
-        public ClubsController(IDataRepositoryClub<Club> dataRepository)
+        public ClubsController(IDataRepositoryJoin<Club> dataRepository)
         {
             _dataRepository = dataRepository;
         }
@@ -120,9 +120,18 @@ namespace ApiClubMedv2.Controllers
         // GET : api/Clubs/GetClubsByCountry
         [HttpGet]
         [Route("[action]/{nameCountry}")]
+        [ActionName("GetClubsByCountry")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Club>>> GetClubsByCountry(string nameCountry)
         {
-            return _dataRepository.GetClubsByCountry(nameCountry);
+            var clubs = _dataRepository.GetStringByTable(nameCountry);
+
+            if (clubs == null)
+            {
+                return NotFound();
+            }
+            return clubs;
         }
     }
 }

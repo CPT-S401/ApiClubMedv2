@@ -60,7 +60,6 @@ namespace ApiClubMedv2.Models.DataManager
         public ActionResult<Activite> GetById(int id)
         {
             var activite = new JsonResult(clubMedDbContext.Activites
-                .Include(cA => cA.ClubActivites)
                 .Where(ca => ca.Id == id)
                 .Select(c => new
                     {

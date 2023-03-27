@@ -1,6 +1,7 @@
 ﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
@@ -15,13 +16,41 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<IEnumerable<ActiviteEnfant>> GetAll()
         {
-            return clubMedDbContext.ActivitesEnfant.ToList();
+            return new JsonResult(
+              clubMedDbContext.ActivitesEnfant.Select(c => new
+                  {
+                      c.Id,
+                      NomActivite = c.Nom,
+                      NomTypeActivite = c.TypeActivite.Nom,
+                      c.Description,
+                      c.AgeMin,
+                      c.Duree,
+                      c.Prix,
+                      AgeMax = c.ActiviteEnfant.AgeMax,
+                      c.EstIncluse,
+                  }
+              )
+          );
         }
 
         public ActionResult<ActiviteEnfant> GetById(int id)
         {
-            var activiteEnfant = clubMedDbContext.ActivitesEnfant.Find(id);
-
+            var activiteEnfant = new JsonResult(clubMedDbContext.ActivitesEnfant
+                 .Where(ca => ca.Id == id)
+                 .Select(c => new
+                     {
+                         c.Id,
+                         NomActivite = c.Nom,
+                         NomTypeActivite = c.TypeActivite.Nom,
+                         c.Description,
+                         c.AgeMin,
+                         c.Duree,
+                         c.Prix,
+                         AgeMax = c.ActiviteEnfant.AgeMax,
+                         c.EstIncluse,
+                     }
+                 )
+             );
             if (activiteEnfant == null)
             {
                 return new NotFoundResult();
@@ -33,7 +62,23 @@ namespace ApiClubMedv2.Models.DataManager
         public ActionResult<ActiviteEnfant> GetByString(string str)
         {
             str = str.Replace('_', ' ');
-            var activiteEnfant = clubMedDbContext.ActivitesEnfant.FirstOrDefault(c => c.Nom.ToLower() == str.ToLower());
+            var activiteEnfant = new JsonResult(clubMedDbContext.ActivitesEnfant
+                .Where(c => c.Nom.ToLower() == str.ToLower())
+                .Select(c => new
+                    {
+                        c.Id,
+                        NomActivite = c.Nom,
+                        NomTypeActivite = c.TypeActivite.Nom,
+                        c.Description,
+                        c.AgeMin,
+                        c.Duree,
+                        c.Prix,
+                        AgeMax = c.ActiviteEnfant.AgeMax,
+                        c.EstIncluse,
+                    }
+                )
+            );
+            
 
             if (activiteEnfant == null)
             {

@@ -10422,11 +10422,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dasmathe\\Source\\Repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+      "projectUniqueName": "F:\\S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
       "projectName": "ApiClubMedv2",
-      "projectPath": "C:\\Users\\dasmathe\\Source\\Repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+      "projectPath": "F:\\S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
       "packagesPath": "C:\\Users\\dasmathe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dasmathe\\Source\\Repos\\CPT-S401\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
+      "outputPath": "F:\\S401\\ApiClubMedv2\\ApiClubMedv2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

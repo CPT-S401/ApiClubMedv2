@@ -8,7 +8,6 @@ namespace ApiClubMedv2.Models.EntityFramework
     {
         public ActiviteEnfant()
         {
-            ClubActivitesEnfant = new HashSet<ClubActiviteEnfant>();
         }
 
         [Required(ErrorMessage = "L'age maximum de l'activité est requis")]
@@ -16,6 +15,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public double AgeMax { get; set; }
 
         [InverseProperty("ActiviteEnfant")]
-        public virtual ICollection<ClubActiviteEnfant> ClubActivitesEnfant { get; set; }
+        public virtual Activite? Activite { get; set; }
+
     }
 }

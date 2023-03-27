@@ -17,9 +17,5 @@ namespace ApiClubMedv2.Models.EntityFramework
         [ForeignKey("IdClub")]
         [InverseProperty("ClubActivitesEnfant")]
         public virtual Club? Club { get; set; }
-
-        [ForeignKey("IdActiviteEnfant")]
-        [InverseProperty("ClubActivitesEnfant")]
-        public virtual ActiviteEnfant? ActiviteEnfant { get; set; }
     }
 }

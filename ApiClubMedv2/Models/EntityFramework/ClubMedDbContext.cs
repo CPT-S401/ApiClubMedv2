@@ -98,6 +98,12 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_act_tac");
 
                 entity
+                    .HasOne(a => a.ActiviteEnfant)
+                    .WithOne(ae => ae.Activite)
+                    .HasForeignKey<ActiviteEnfant>(ae => ae.Id)
+                    .HasConstraintName("fk_act_ace");
+
+                entity
                     .HasCheckConstraint("ck_act_agemin", "act_agemin >= 0");
 
                 entity
@@ -217,14 +223,9 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasForeignKey(d => d.IdClub)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_clb_cae");
-
-                entity
-                    .HasOne(d => d.ActiviteEnfant)
-                    .WithMany(p => p.ClubActivitesEnfant)
-                    .HasForeignKey(d => d.IdActiviteEnfant)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_ace_cae");
+                
             });
+
 
             modelBuilder.Entity<BarMultimedia>(entity =>
             {

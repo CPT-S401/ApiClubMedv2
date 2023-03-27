@@ -119,10 +119,10 @@ namespace ApiClubMedv2.Controllers
         // GET : api/Activites/GetActivitiesByClub
         [HttpGet]
         [Route("[action]/{idClub}")]
-        [ActionName("GetActivitiesByClub")]
+        [ActionName("GetActivitesByClub")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<Activite>>> GetActivitiesByClub(int idClub)
+        public async Task<ActionResult<IEnumerable<Activite>>> GetActivitesByClub(int idClub)
         {
             var activites = _dataRepository.GetIdByTable(idClub);
 

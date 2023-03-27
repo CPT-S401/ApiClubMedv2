@@ -16,7 +16,21 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<IEnumerable<Activite>> GetAll()
         {
-            return clubMedDbContext.Activites.ToList();
+            return new JsonResult(
+                clubMedDbContext.Activites.Select(c => new
+                    {
+                        c.Id,
+                        NomActivite = c.Nom,
+                        NomTypeActivite = c.TypeActivite.Nom,
+                        c.Description,
+                        c.AgeMin,
+                        c.Duree,
+                        c.Prix,
+                        AgeMax = c.ActiviteEnfant.AgeMax != null ? c.ActiviteEnfant.AgeMax : default(double?),
+                        c.EstIncluse,
+                    }
+                )
+            );
         }
 
         public ActionResult<IEnumerable<Activite>> GetIdByTable(int idClub)
@@ -24,8 +38,9 @@ namespace ApiClubMedv2.Models.DataManager
             return new JsonResult(clubMedDbContext.Activites
                     .Include(cA => cA.ClubActivites)
                         .ThenInclude(c => c.Club)
+                        .ThenInclude(cAE => cAE.ClubActivitesEnfant)
                     .Where(cA => cA.ClubActivites
-                        .Any(pl => pl.Club.Id == idClub))
+                        .Any(pl => pl.Club.Id == idClub) || cA.ActiviteEnfant != null)
                     .Select(c => new
                         {
                             c.Id,
@@ -35,27 +50,32 @@ namespace ApiClubMedv2.Models.DataManager
                             c.AgeMin,
                             c.Duree,
                             c.Prix,
+                            AgeMax = c.ActiviteEnfant.AgeMax  != null ? c.ActiviteEnfant.AgeMax : default(double?),
                             c.EstIncluse,
                         }
                     )
                 );
-
-            /* A TESTER 
-
-                                .Include(cA => cA.ClubActivites)
-                        .ThenInclude(c => c.Club)
-                    .Include(cA => cA.ActivitesEnfant)
-                        .ThenInclude(c => c.ClubEnfant)
-                    .Where(cA => cA.ClubActivites
-                        .Any(pl => pl.Club.Id == idClub)
-                        || cA.ActivitesEnfant
-                            .Any(ae => ae.ClubEnfant.Id == idClub))
-            */
         }
 
         public ActionResult<Activite> GetById(int id)
         {
-            var activite = clubMedDbContext.Activites.Find(id);
+            var activite = new JsonResult(clubMedDbContext.Activites
+                .Include(cA => cA.ClubActivites)
+                .Where(ca => ca.Id == id)
+                .Select(c => new
+                    {
+                        c.Id,
+                        NomActivite = c.Nom,
+                        NomTypeActivite = c.TypeActivite.Nom,
+                        c.Description,
+                        c.AgeMin,
+                        c.Duree,
+                        c.Prix,
+                        AgeMax = c.ActiviteEnfant.AgeMax != null ? c.ActiviteEnfant.AgeMax : default(double?),
+                        c.EstIncluse,
+                    }
+                )
+            );
 
             if (activite == null)
             {

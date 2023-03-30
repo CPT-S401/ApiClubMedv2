@@ -1,4 +1,4 @@
-﻿using APIClubMed.Models;
+﻿using ApiClubMedv2.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
@@ -25,11 +25,12 @@ namespace ApiClubMedv2.Models.EntityFramework
         public virtual DbSet<Ville> Villes { get; set; } = null!;
         public virtual DbSet<Pays> Pays { get; set; } = null!;
         public virtual DbSet<ClubPaysLocalisation> ClubPaysLocalisations { get; set; } = null!;
+        public virtual DbSet<TypeCaracteristique> TypeCaracteristiques { get; set; } = null!;
         public virtual DbSet<CodePostal> CodesPostaux { get; set; } = null!;
         public virtual DbSet<Localisation> Localisations { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;
         public virtual DbSet<Client> Clients { get; set; } = null!;
-        public virtual DbSet<Avis> Avis { get; set; } = null!;
+        public virtual DbSet<Avis> Avis { get; set; } = null!; 
 
         public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -172,6 +173,16 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_cmb_ctr");
             });
 
+            modelBuilder.Entity<Caracteristique>(entity =>
+            {
+                entity
+                    .HasOne(d => d.TypeCaracteristique)
+                    .WithMany(p => p.Caracteristiques)
+                    .HasForeignKey(d => d.IdTypeCaracteristique)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_ctq_tct");
+            });
+
             modelBuilder.Entity<ClubCaracteristique>(entity =>
             {
                 entity
@@ -226,6 +237,127 @@ namespace ApiClubMedv2.Models.EntityFramework
                 
             });
 
+
+
+            modelBuilder.Entity<ActiviteMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(atm => new { atm.IdActivite, atm.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.Activite)
+                    .WithMany(p => p.ActiviteMultimedias)
+                    .HasForeignKey(d => d.IdActivite)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_act_atm");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.ActiviteMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_atm");
+            });
+
+            modelBuilder.Entity<TypeActiviteMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(tam => new { tam.IdTypeActivite, tam.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.TypeActivite)
+                    .WithMany(p => p.TypeActiviteMultimedias)
+                    .HasForeignKey(d => d.IdTypeActivite)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_tac_tam");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.TypeActiviteMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_tam");
+            });
+
+            modelBuilder.Entity<TypeChambreMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(thm => new { thm.IdTypeChambre, thm.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.TypeChambre)
+                    .WithMany(p => p.TypeChambreMultimedias)
+                    .HasForeignKey(d => d.IdTypeChambre)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_tch_thm");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.TypeChambreMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_thm");
+            });
+
+            modelBuilder.Entity<TypeCaracteristiqueMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(tcm => new { tcm.IdTypeCaracteristique, tcm.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.TypeCaracteristique)
+                    .WithMany(p => p.TypeCaracteristiqueMultimedias)
+                    .HasForeignKey(d => d.IdTypeCaracteristique)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_tct_tcm");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.TypeCaracteristiqueMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_tcm");
+            });
+
+            modelBuilder.Entity<CaracteristiqueMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(cmt => new { cmt.IdCaracteristique, cmt.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.Caracteristique)
+                    .WithMany(p => p.CaracteristiqueMultimedias)
+                    .HasForeignKey(d => d.IdCaracteristique)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_tct_cmt");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.CaracteristiqueMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_cmt");
+            });
+
+            modelBuilder.Entity<DomaineMultimedia>(entity =>
+            {
+                entity
+                    .HasKey(dmt => new { dmt.IdDomaineSkiable, dmt.IdMultimedia });
+
+                entity
+                    .HasOne(d => d.Domaine)
+                    .WithMany(p => p.DomaineMultimedias)
+                    .HasForeignKey(d => d.IdDomaineSkiable)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_tct_dmt");
+
+                entity
+                    .HasOne(d => d.Multimedia)
+                    .WithMany(p => p.DomaineMultimedias)
+                    .HasForeignKey(d => d.IdMultimedia)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_mlm_dmt");
+            });
 
             modelBuilder.Entity<BarMultimedia>(entity =>
             {

@@ -1,12 +1,8 @@
-﻿using ApiClubMedv2.Controllers;
-using ApiClubMedv2.Models.EntityFramework;
+﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using System.Collections.Immutable;
-using Newtonsoft.Json;
+
 
 namespace ApiClubMedv2.Models.DataManager
 {
@@ -58,7 +54,22 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<Club> GetById(int id)
         {
-            var club = clubMedDbContext.Clubs.Find(id);
+            var club = new JsonResult(clubMedDbContext.Clubs
+                .Where(ca => ca.Id == id)
+                .Select(c => new
+                    {
+                        c.Id,
+                        NomClub = c.Nom,
+                        c.LienPDF,
+                        DescriptionClub = c.Description,
+                        c.Longitude,
+                        c.Latitude,
+                        c.Email,
+                        DomaineSkiable = c.Domaine  ?? c.Domaine,
+                        Avis = c.Avis ?? c.Avis,
+                    }
+                )
+            );
 
             if (club == null)
             {

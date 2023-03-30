@@ -1,13 +1,11 @@
-﻿using APIClubMed.Models;
-using ApiClubMedv2.Models;
+﻿using Microsoft.AspNetCore.Authorization;
 using ApiClubMedv2.Models.EntityFramework;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ApiClubMedv2.Models.Repository;
 
 namespace JwtAPI.Controllers
 {
@@ -15,54 +13,39 @@ namespace JwtAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        private readonly IDataRepositoryUser<Client> _dataRepository;
         private readonly IConfiguration _config;
-        private List<User> appUsers = new List<User>
-        {
-            new User {
-                NomUser = "COUTURIER",
-                Email = "vcout@gmail.com",
-                Password = "1234",
-                UserRole = "User"
-            },
-            new User {
-                NomUser = "DAMAS",
-                Email = "ldamas@gmail.com",
-                Password = "1234",
-                UserRole = "Admin"
-            },
-        };
 
-        public LoginController(IConfiguration config)
+        public LoginController(IConfiguration config, IDataRepositoryUser<Client> dataRepository)
         {
             _config = config;
+            _dataRepository = dataRepository;
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] User login)
+        public IActionResult Login([FromBody] Client login)
         {
             IActionResult response = Unauthorized();
-            User user = AuthenticateUser(login);
+            ActionResult<Client> user = AuthenticateUser(login);
             if (user != null)
             {
-                var tokenString = GenerateJwtToken(user);
+                var tokenString = GenerateJwtToken(user.Value);
                 response = Ok(new
                 {
                     token = tokenString,
-                    userDetails = user,
+                    userDetails = user.Value,
                 });
             }
             return response;
         }
 
-        private User AuthenticateUser(User user)
+        private ActionResult<Client> AuthenticateUser(Client user)
         {
-            PasswordHasher pH = new PasswordHasher();
-            return appUsers.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() &&
-            pH.Validate(user.Password, x.Password));
+            return _dataRepository.GetAutenticateUser(user.Email, user.Password);
         }
 
-        private string GenerateJwtToken(User userInfo)
+        private string GenerateJwtToken(Client userInfo)
         {
             var securityKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(
@@ -71,7 +54,8 @@ namespace JwtAPI.Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.NomUser),
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.GenreClient),
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.NomClient),
                 new Claim("email", userInfo.Email.ToString()),
                 new Claim("role",userInfo.UserRole),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

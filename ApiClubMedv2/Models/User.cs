@@ -2,9 +2,8 @@
 {
     public class User
     {
-        public string? NomUser { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string? UserRole { get; set; }
+        public virtual string Email { get; set; } = null!;
+        public virtual string Password { get; set; } = null!;
+        public virtual string? UserRole { get; set; }
     }
 }

@@ -1,16 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using ApiClubMedv2.Models.EntityFramework;
-using Microsoft.AspNetCore.Identity;
-using ApiClubMedv2.Models;
 
-namespace APIClubMed.Models
+namespace ApiClubMedv2.Models.EntityFramework
 {
     [Table("t_e_client_clt", Schema = "clubmed")]
     [Index("Email", IsUnique = true)]
     [Index("Mobile", IsUnique = true)]
-    public class Client
+    public class Client : User
     {
         public Client()
         {
@@ -39,7 +36,7 @@ namespace APIClubMed.Models
         [Column("clt_nomclient", TypeName = "varchar(50)")]
         [StringLength(50)]
         [Required(ErrorMessage = "Le nom est requis.")]
-        public string NomClient { get; set; } = null!;
+        public string? NomClient { get; set; }
 
         [Column("clt_datenaissance", TypeName = "date")]
         [DataType(DataType.Date)]
@@ -54,7 +51,7 @@ namespace APIClubMed.Models
         //Annotation Regex pour valider le format de l'email
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "L'email doit être une adresse e-mail valide.")]
         [StringLength(100, ErrorMessage = "La longueur d'un email ne doit pas dépasser 100 caractères")]
-        public string Email { get; set; } = null!;
+        public override string Email { get; set; } = null!;
 
         [Column("clt_mobile", TypeName = "char(10)")]
         [Required(ErrorMessage = "Le numéro de téléphone portable est requis.")]
@@ -66,12 +63,11 @@ namespace APIClubMed.Models
         [Column("clt_password")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Le mot de passe est requis.")]
-        public string Password
+        public override string Password
         {
             get { return password; }
             set {
-                PasswordHasher pH = new PasswordHasher();
-                password = pH.Hash(value);
+                password = value;
             }
         }
 

@@ -10,6 +10,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public TypeActivite()
         {
             Activites = new HashSet<Activite>();
+            TypeActiviteMultimedias = new HashSet<TypeActiviteMultimedia>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,5 +27,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("TypeActivite")]
         public virtual ICollection<Activite> Activites { get; set; }
+
+        [InverseProperty("TypeActivite")]
+        public virtual ICollection<TypeActiviteMultimedia> TypeActiviteMultimedias { get; set; }
     }
 }

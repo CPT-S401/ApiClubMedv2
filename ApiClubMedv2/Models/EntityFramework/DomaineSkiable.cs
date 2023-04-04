@@ -9,6 +9,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         public DomaineSkiable()
         {
             Clubs = new HashSet<Club>();
+            DomaineMultimedias = new HashSet<DomaineMultimedia>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -46,5 +47,8 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Domaine")]
         public virtual ICollection<Club> Clubs { get; set; }
+
+        [InverseProperty("Domaine")]
+        public virtual ICollection<DomaineMultimedia> DomaineMultimedias { get; set; }
     }
 }

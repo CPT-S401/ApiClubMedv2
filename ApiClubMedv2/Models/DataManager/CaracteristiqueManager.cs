@@ -52,7 +52,6 @@ namespace ApiClubMedv2.Models.DataManager
         public void Update(Caracteristique entityToUpdate, Caracteristique entity)
         {
             entityToUpdate.Nom = entity.Nom;
-            entityToUpdate.Icon = entity.Icon;
             clubMedDbContext.SaveChanges();
         }
 

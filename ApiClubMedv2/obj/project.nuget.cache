@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rTnTmXrY2dOUk2T5mQQguBWGUnwrPfXF2Gh8qpYvR5O2KwhIhdM6e0CHTIScyMM96c6xqq0ZN1ZtiRnLq1tgwQ==",
+  "dgSpecHash": "0Cb7m29oE3bzAiozo2gVigssXAOjRNJJcdC7wdKRx2ZU4j6nh4u2oUIW4QiWCWsHLrqUj72VfoWsZpgHyVRvXg==",
   "success": true,
-  "projectFilePath": "F:\\S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
+  "projectFilePath": "F:\\Cours\\S401\\ApiClubMedv2\\ApiClubMedv2\\ApiClubMedv2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dasmathe\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\dasmathe\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

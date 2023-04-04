@@ -56,5 +56,9 @@ namespace ApiClubMedv2.Models.EntityFramework
         [ForeignKey("IdTypeActivite")]
         [InverseProperty("Activites")]
         public virtual TypeActivite? TypeActivite { get; set; }
+
+        [InverseProperty("Activite")]
+        public virtual ICollection<ActiviteMultimedia> ActiviteMultimedias { get; set; }
+        
     }
 }

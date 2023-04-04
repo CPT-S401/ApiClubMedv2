@@ -28,7 +28,6 @@
                    EqualityComparer<ICollection<Restaurant>>.Default.Equals(this.Restaurants, club.Restaurants) &&
                    EqualityComparer<ICollection<ClubPaysLocalisation>>.Default.Equals(this.ClubPaysLocalisations, club.ClubPaysLocalisations) &&
                    EqualityComparer<ICollection<ClubTypeClub>>.Default.Equals(this.ClubTypesClub, club.ClubTypesClub) &&
-                   EqualityComparer<ICollection<ClubTypeChambre>>.Default.Equals(this.ClubTypesChambre, club.ClubTypesChambre) &&
                    EqualityComparer<ICollection<Reservation>>.Default.Equals(this.Reservations, club.Reservations) &&
                    EqualityComparer<ICollection<Avis>>.Default.Equals(this.Avis, club.Avis);
         }
@@ -54,7 +53,6 @@
             hash.Add(this.Restaurants);
             hash.Add(this.ClubPaysLocalisations);
             hash.Add(this.ClubTypesClub);
-            hash.Add(this.ClubTypesChambre);
             hash.Add(this.Reservations);
             hash.Add(this.Avis);
             return hash.ToHashCode();

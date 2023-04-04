@@ -8,7 +8,6 @@ namespace ApiClubMedv2.Models.EntityFramework
     {
         public TypeChambre()
         {
-            ClubTypesChambre = new HashSet<ClubTypeChambre>();
             Reservations = new HashSet<Reservation>();
             TypeChambreMultimedias = new HashSet<TypeChambreMultimedia>();
         }
@@ -37,9 +36,6 @@ namespace ApiClubMedv2.Models.EntityFramework
         [Column("tch_surface", TypeName = "varchar(20)")]
         [StringLength(20, ErrorMessage = "La longueur de la surface ne doit pas dépasser les 20 caractères")]
         public string? Surface { get; set; }
-
-        [InverseProperty("TypeChambre")]
-        public virtual ICollection<ClubTypeChambre> ClubTypesChambre { get; set; }
 
         [InverseProperty("TypeChambre")]
         public virtual ICollection<Reservation> Reservations { get; set; }

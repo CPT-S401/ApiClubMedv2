@@ -486,26 +486,6 @@ namespace ApiClubMedv2.Models.EntityFramework
                     .HasConstraintName("fk_tcl_ctc");
             });
 
-            modelBuilder.Entity<ClubTypeChambre>(entity =>
-            {
-                entity
-                    .HasKey(cth => new { cth.IdClub, cth.IdTypeChambre });
-
-                entity
-                    .HasOne(d => d.Club)
-                    .WithMany(p => p.ClubTypesChambre)
-                    .HasForeignKey(d => d.IdClub)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_clb_cth");
-
-                entity
-                    .HasOne(d => d.TypeChambre)
-                    .WithMany(p => p.ClubTypesChambre)
-                    .HasForeignKey(d => d.IdTypeChambre)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_tch_cth");
-            });
-
             modelBuilder.Entity<Reservation>(entity =>
             {
                 entity

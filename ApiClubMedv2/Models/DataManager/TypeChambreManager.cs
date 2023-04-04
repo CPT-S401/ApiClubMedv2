@@ -1,10 +1,11 @@
 ﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
-    public class TypeChambreManager : IDataRepository<TypeChambre>
+    public class TypeChambreManager : IDataRepositoryJoin<TypeChambre>
     {
         private readonly ClubMedDbContext clubMedDbContext;
 
@@ -15,12 +16,80 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<IEnumerable<TypeChambre>> GetAll()
         {
-            return clubMedDbContext.TypesChambre.ToList();
+            return new JsonResult(
+               clubMedDbContext.TypesChambre
+               .Include(am => am.TypeChambreMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+               .Select(c => new
+                   {
+                       c.Id,
+                       c.IdClub,
+                       NomTypeChambre = c.Nom,
+                       c.Description,
+                       c.Prix,
+                       c.Surface,
+                       Multimedia = c.TypeChambreMultimedias.Select(m => new
+                       {
+                           m.Multimedia.Id,
+                           m.Multimedia.Nom,
+                           m.Multimedia.Lien,
+                       }).ToList()
+                   }
+               )
+           );
+        }
+
+        public ActionResult<IEnumerable<TypeChambre>> GetIdByTable(int idClub)
+        {
+            return new JsonResult(clubMedDbContext.TypesChambre
+                    .Include(am => am.TypeChambreMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+                    .Where(cTC => cTC.IdClub == idClub)
+                    .Select(c => new
+                        {
+                            c.Id,
+                            NomTypeChambre = c.Nom,
+                            c.Description,
+                            c.Prix,
+                            c.Surface,
+                            Multimedia = c.TypeChambreMultimedias.Select(m => new
+                            {
+                                m.Multimedia.Id,
+                                m.Multimedia.Nom,
+                                m.Multimedia.Lien,
+                            }).ToList()
+                        }
+                    )
+                );
+        }
+
+        public ActionResult<IEnumerable<TypeChambre>> GetStringByTable(string stringTable)
+        {
+            throw new NotImplementedException();
         }
 
         public ActionResult<TypeChambre> GetById(int id)
         {
-            var typeChambre = clubMedDbContext.TypesChambre.Find(id);
+            var typeChambre = new JsonResult(clubMedDbContext.TypesChambre
+                .Where(ca => ca.Id == id)
+                .Include(am => am.TypeChambreMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+                .Select(c => new
+                    {
+                        c.Id,
+                        c.IdClub,
+                        NomTypeChambre = c.Nom,
+                        c.Description,
+                        c.Prix,
+                        c.Surface,
+                        Multimedia = c.TypeChambreMultimedias.Select(m => new
+                        {
+                            m.Multimedia.Id,
+                            m.Multimedia.Nom,
+                            m.Multimedia.Lien,
+                        }).ToList()
+                    }
+                ));
 
             if (typeChambre == null)
             {

@@ -14,21 +14,38 @@ namespace ApiClubMedv2.Controllers
     [ApiController]
     public class TypeChambresController : ControllerBase
     {
-        private readonly IDataRepository<TypeChambre> _dataRepository;
+        private readonly IDataRepositoryJoin<TypeChambre> _dataRepository;
 
-        public TypeChambresController(IDataRepository<TypeChambre> dataRepository)
+        public TypeChambresController(IDataRepositoryJoin<TypeChambre> dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
-        // GET : api/Clubs
+        // GET : api/TypeChambres
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeChambre>>> GetTypeChambres()
         {
             return _dataRepository.GetAll();
         }
 
-        // GET : api/Clubs/1
+        // GET : api/TypeChambres/GetTypeChambresByClub
+        [HttpGet]
+        [Route("[action]/{idClub}")]
+        [ActionName("GetTypeChambresByClub")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<TypeChambre>>> GetTypeChambresByClub(int idClub)
+        {
+            var typeChambres = _dataRepository.GetIdByTable(idClub);
+
+            if (typeChambres == null)
+            {
+                return NotFound();
+            }
+            return typeChambres;
+        }
+
+        // GET : api/TypeChambres/1
         [HttpGet]
         [Route("[action]/{id}")]
         [ActionName("GetById")]
@@ -45,7 +62,7 @@ namespace ApiClubMedv2.Controllers
             return typeChambre;
         }
 
-        // GET : api/Clubs/la_plagne
+        // GET : api/TypeChambres/la_plagne
         [HttpGet]
         [Route("[action]/{name}")]
         [ActionName("GetByName")]
@@ -62,7 +79,7 @@ namespace ApiClubMedv2.Controllers
             return typeChambre;
         }
 
-        // PUT: api/Clubs/5
+        // PUT: api/TypeChambres/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -86,7 +103,7 @@ namespace ApiClubMedv2.Controllers
             }
         }
 
-        // POST: api/Clubs
+        // POST: api/TypeChambres
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -101,7 +118,7 @@ namespace ApiClubMedv2.Controllers
             return CreatedAtAction("GetById", new { id = typeChambre.Id }, typeChambre);
         }
 
-        // DELETE: api/Clubs/5
+        // DELETE: api/TypeChambres/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -7,7 +7,7 @@ namespace ApiClubMedv2.Models.EntityFramework
     public class ActiviteMultimedia
     {
         [Required(ErrorMessage = "L'id de l'activite est requis")]
-        [Column("atm_idtypecaracteristique")]
+        [Column("atm_idactivite")]
         public int IdActivite { get; set; }
 
         [Required(ErrorMessage = "L'id du multimedia est requis")]

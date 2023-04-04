@@ -17,7 +17,10 @@ namespace ApiClubMedv2.Models.DataManager
         public ActionResult<IEnumerable<Activite>> GetAll()
         {
             return new JsonResult(
-                clubMedDbContext.Activites.Select(c => new
+                clubMedDbContext.Activites
+                .Include(am => am.ActiviteMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+                .Select(c => new
                     {
                         c.Id,
                         NomActivite = c.Nom,
@@ -28,6 +31,12 @@ namespace ApiClubMedv2.Models.DataManager
                         c.Prix,
                         AgeMax = c.ActiviteEnfant.AgeMax != null ? c.ActiviteEnfant.AgeMax : default(double?),
                         c.EstIncluse,
+                        Multimedia = c.ActiviteMultimedias.Select(m => new
+                        {
+                            m.Multimedia.Id,
+                            m.Multimedia.Nom,
+                            m.Multimedia.Lien,
+                        }).ToList()
                     }
                 )
             );
@@ -39,6 +48,8 @@ namespace ApiClubMedv2.Models.DataManager
                     .Include(cA => cA.ClubActivites)
                         .ThenInclude(c => c.Club)
                         .ThenInclude(cAE => cAE.ClubActivitesEnfant)
+                    .Include(am => am.ActiviteMultimedias)
+                        .ThenInclude(m => m.Multimedia)
                     .Where(cA => cA.ClubActivites
                         .Any(pl => pl.Club.Id == idClub) || cA.ActiviteEnfant != null)
                     .Select(c => new
@@ -52,6 +63,12 @@ namespace ApiClubMedv2.Models.DataManager
                             c.Prix,
                             AgeMax = c.ActiviteEnfant.AgeMax  != null ? c.ActiviteEnfant.AgeMax : default(double?),
                             c.EstIncluse,
+                            Multimedia = c.ActiviteMultimedias.Select(m => new
+                            {
+                                m.Multimedia.Id,
+                                m.Multimedia.Nom,
+                                m.Multimedia.Lien,
+                            }).ToList()
                         }
                     )
                 );
@@ -61,6 +78,8 @@ namespace ApiClubMedv2.Models.DataManager
         {
             var activite = new JsonResult(clubMedDbContext.Activites
                 .Where(ca => ca.Id == id)
+                .Include(am => am.ActiviteMultimedias)
+                        .ThenInclude(m => m.Multimedia)
                 .Select(c => new
                     {
                         c.Id,
@@ -72,6 +91,12 @@ namespace ApiClubMedv2.Models.DataManager
                         c.Prix,
                         AgeMax = c.ActiviteEnfant.AgeMax != null ? c.ActiviteEnfant.AgeMax : default(double?),
                         c.EstIncluse,
+                        Multimedia = c.ActiviteMultimedias.Select(m => new
+                        {
+                            m.Multimedia.Id,
+                            m.Multimedia.Nom,
+                            m.Multimedia.Lien,
+                        }).ToList()
                     }
                 )
             );

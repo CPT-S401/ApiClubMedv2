@@ -22,7 +22,7 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [Required(ErrorMessage = "Le nom de la caractéristique est requis")]
         [Column("ctq_nom")]
-        [StringLength(20, ErrorMessage = "La longueur du nom ne doit pas dépasser les 20 caractères")]
+        [StringLength(50, ErrorMessage = "La longueur du nom ne doit pas dépasser les 50 caractères")]
         public string Nom { get; set; } = null!;
 
         [ForeignKey("IdTypeCaracteristique")]

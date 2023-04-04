@@ -7,7 +7,7 @@ namespace ApiClubMedv2.Models.EntityFramework
     public class DomaineMultimedia
     {
         [Required(ErrorMessage = "L'id du domaine skiable est requis")]
-        [Column("dmt_idclub")]
+        [Column("dmt_iddomaineskiable")]
         public int IdDomaineSkiable { get; set; }
 
         [Required(ErrorMessage = "L'id du multimedia est requis")]

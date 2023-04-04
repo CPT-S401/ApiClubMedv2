@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ApiClubMedv2.Models.Repository;
+using ApiClubMedv2.Models;
 
 namespace JwtAPI.Controllers
 {
@@ -24,11 +25,11 @@ namespace JwtAPI.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] Client login)
+        public IActionResult Login([FromBody] User userInfo)
         {
             IActionResult response = Unauthorized();
-            ActionResult<Client> user = AuthenticateUser(login);
-            if (user != null)
+            ActionResult<Client> user = AuthenticateUser(userInfo);
+            if (user.Value != null)
             {
                 var tokenString = GenerateJwtToken(user.Value);
                 response = Ok(new
@@ -40,7 +41,7 @@ namespace JwtAPI.Controllers
             return response;
         }
 
-        private ActionResult<Client> AuthenticateUser(Client user)
+        private ActionResult<Client> AuthenticateUser(User user)
         {
             return _dataRepository.GetAutenticateUser(user.Email, user.Password);
         }

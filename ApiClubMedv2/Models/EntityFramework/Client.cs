@@ -47,11 +47,11 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [Column("clt_email", TypeName = "varchar(100)")]
         [Required(ErrorMessage = "L'email est requis.")]
-        [EmailAddress(ErrorMessage = "L'email doit être une adresse e-mail valide.")]
+        [EmailAddress(ErrorMessage = "L'email doit être une adresse e-mail.")]
         //Annotation Regex pour valider le format de l'email
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "L'email doit être une adresse e-mail valide.")]
         [StringLength(100, ErrorMessage = "La longueur d'un email ne doit pas dépasser 100 caractères")]
-        public override string Email { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         [Column("clt_mobile", TypeName = "char(10)")]
         [Required(ErrorMessage = "Le numéro de téléphone portable est requis.")]
@@ -63,7 +63,7 @@ namespace ApiClubMedv2.Models.EntityFramework
         [Column("clt_password")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Le mot de passe est requis.")]
-        public override string Password
+        public string Password
         {
             get { return password; }
             set {
@@ -119,5 +119,13 @@ namespace ApiClubMedv2.Models.EntityFramework
 
         [InverseProperty("Client")]
         public virtual ICollection<Avis> Avis { get; set; }
+
+        private string? userRole;
+
+        public string? UserRole
+        {
+            get { return "User"; }
+            set { userRole = "User"; }
+        }
     }
 }

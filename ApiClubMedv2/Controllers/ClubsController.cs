@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
-using ApiClubMedv2.Models.DataManager;
 
 namespace ApiClubMedv2.Controllers
 {

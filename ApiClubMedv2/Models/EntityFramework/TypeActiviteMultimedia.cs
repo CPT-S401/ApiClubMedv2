@@ -7,11 +7,11 @@ namespace ApiClubMedv2.Models.EntityFramework
     public class TypeActiviteMultimedia
     {
         [Required(ErrorMessage = "L'id du type activite est requis")]
-        [Column("tcm_idtypecaracteristique")]
+        [Column("tam_idtypeactivite")]
         public int IdTypeActivite { get; set; }
 
         [Required(ErrorMessage = "L'id du multimedia est requis")]
-        [Column("tcm_idmultimedia")]
+        [Column("tam_idmultimedia")]
         public int IdMultimedia { get; set; }
 
         [ForeignKey("IdTypeActivite")]

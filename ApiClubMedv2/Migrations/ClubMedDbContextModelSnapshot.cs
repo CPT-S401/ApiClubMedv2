@@ -263,7 +263,7 @@ namespace ApiClubMedv2.Migrations
                         .HasColumnType("char(10)")
                         .HasColumnName("clt_genreclient");
 
-                    b.Property<int>("IdCodePostal")
+                    b.Property<int?>("IdCodePostal")
                         .HasColumnType("integer")
                         .HasColumnName("clt_idcodepostal");
 
@@ -1163,9 +1163,7 @@ namespace ApiClubMedv2.Migrations
                 {
                     b.HasOne("ApiClubMedv2.Models.EntityFramework.CodePostal", "CodePostalClient")
                         .WithMany("CodePostalDesClients")
-                        .HasForeignKey("IdCodePostal")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdCodePostal");
 
                     b.Navigation("CodePostalClient");
                 });

@@ -32,8 +32,7 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<CodePostal> GetByString(string str)
         {
-            str = str.Replace('_', ' ');
-            var codePostal = clubMedDbContext.CodesPostaux.FirstOrDefault(c => c.Code.ToLower() == str.ToLower());
+            var codePostal = clubMedDbContext.CodesPostaux.FirstOrDefault(c => c.Code == str);
 
             if (codePostal == null)
             {

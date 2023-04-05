@@ -1,6 +1,7 @@
 ﻿using ApiClubMedv2.Models.EntityFramework;
 using ApiClubMedv2.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClubMedv2.Models.DataManager
 {
@@ -15,12 +16,65 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<IEnumerable<TypeActivite>> GetAll()
         {
-            return clubMedDbContext.TypesActivite.ToList();
+            return new JsonResult(
+               clubMedDbContext.TypesActivite
+               .Include(am => am.TypeActiviteMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+               .Select(c => new
+                   {
+                       c.Id,
+                       NomTypeActivite = c.Nom,
+                       c.Description,
+                       Multimedia = c.TypeActiviteMultimedias.Select(m => new
+                       {
+                           m.Multimedia.Id,
+                           m.Multimedia.Nom,
+                           m.Multimedia.Lien,
+                       }).ToList(),
+
+                       Activites = c.Activites.Select(c => new
+                       {
+                           c.Id,
+                           NomActivite = c.Nom,
+                           NomTypeActivite = c.TypeActivite.Nom,
+                           c.Description,
+                           c.AgeMin,
+                           c.Duree,
+                           c.Prix,
+                           AgeMax = c.ActiviteEnfant.AgeMax != null ? c.ActiviteEnfant.AgeMax : default(double?),
+                           c.EstIncluse,
+                           Multimedia = c.ActiviteMultimedias.Select(m => new
+                           {
+                               m.Multimedia.Id,
+                               m.Multimedia.Nom,
+                               m.Multimedia.Lien,
+                           }).ToList()
+                       }).ToList(),
+                    }
+               )
+           );
         }
 
         public ActionResult<TypeActivite> GetById(int id)
         {
-            var typeActivite = clubMedDbContext.TypesActivite.Find(id);
+            var typeActivite = new JsonResult(clubMedDbContext.TypesActivite
+                .Where(ca => ca.Id == id)
+                .Include(am => am.TypeActiviteMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+                .Select(c => new
+                    {
+                        c.Id,
+                        NomTypeActivite = c.Nom,
+                        c.Description,
+                        c.Activites,
+                        Multimedia = c.TypeActiviteMultimedias.Select(m => new
+                        {
+                            m.Multimedia.Id,
+                            m.Multimedia.Nom,
+                            m.Multimedia.Lien,
+                        }).ToList()
+                    }
+                ));
 
             if (typeActivite == null)
             {

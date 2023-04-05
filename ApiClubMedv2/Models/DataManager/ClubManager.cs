@@ -56,6 +56,8 @@ namespace ApiClubMedv2.Models.DataManager
         {
             var club = new JsonResult(clubMedDbContext.Clubs
                 .Where(ca => ca.Id == id)
+                 .Include(am => am.ClubMultimedias)
+                        .ThenInclude(m => m.Multimedia)
                 .Select(c => new
                     {
                         c.Id,
@@ -67,6 +69,12 @@ namespace ApiClubMedv2.Models.DataManager
                         c.Email,
                         DomaineSkiable = c.Domaine  ?? c.Domaine,
                         Avis = c.Avis ?? c.Avis,
+                        Multimedia = c.ClubMultimedias.Select(m => new
+                        {
+                            m.Multimedia.Id,
+                            m.Multimedia.Nom,
+                            m.Multimedia.Lien,
+                        }).ToList()
                     }
                 )
             );

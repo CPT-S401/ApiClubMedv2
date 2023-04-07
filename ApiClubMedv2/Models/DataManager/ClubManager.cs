@@ -17,7 +17,37 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<IEnumerable<Club>> GetAll()
         {
-            return clubMedDbContext.Clubs.ToList();
+            return new JsonResult(
+                clubMedDbContext.Clubs
+                .Include(am => am.ClubMultimedias)
+                        .ThenInclude(m => m.Multimedia)
+                .Include(c => c.ClubPaysLocalisations)
+                    .ThenInclude(pl => pl.Pays)
+                .Select(c => new
+                    {
+                        c.Id,
+                        NomClub = c.Nom,
+                        c.LienPDF,
+                        DescriptionClub = c.Description,
+                        c.Longitude,
+                        c.Latitude,
+                        c.Email,
+                        Pays = c.ClubPaysLocalisations.Select(pl => new
+                        {
+                            pl.Pays.Id,
+                            pl.Pays.Nom,
+                        }).FirstOrDefault(),
+                        DomaineSkiable = c.Domaine ?? c.Domaine,
+                        Avis = c.Avis ?? c.Avis,
+                        Multimedia = c.ClubMultimedias.Select(m => new
+                        {
+                            m.Multimedia.Id,
+                            m.Multimedia.Nom,
+                            m.Multimedia.Lien,
+                        }).ToList()
+                    }
+            )
+        );
         }
 
         public ActionResult<IEnumerable<Club>> GetStringByTable(string nameCountry)
@@ -58,6 +88,8 @@ namespace ApiClubMedv2.Models.DataManager
                 .Where(ca => ca.Id == id)
                  .Include(am => am.ClubMultimedias)
                         .ThenInclude(m => m.Multimedia)
+                .Include(c => c.ClubPaysLocalisations)
+                    .ThenInclude(pl => pl.Pays)
                 .Select(c => new
                     {
                         c.Id,
@@ -67,6 +99,11 @@ namespace ApiClubMedv2.Models.DataManager
                         c.Longitude,
                         c.Latitude,
                         c.Email,
+                        Pays = c.ClubPaysLocalisations.Select(pl => new
+                        {
+                            pl.Pays.Id,
+                            pl.Pays.Nom,
+                        }).FirstOrDefault(),
                         DomaineSkiable = c.Domaine  ?? c.Domaine,
                         Avis = c.Avis ?? c.Avis,
                         Multimedia = c.ClubMultimedias.Select(m => new

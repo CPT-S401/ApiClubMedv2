@@ -129,5 +129,10 @@ namespace ApiClubMedv2.Models.DataManager
             clubMedDbContext.TypesChambre.Remove(entity);
             clubMedDbContext.SaveChanges();
         }
+
+        public Task<ActionResult<IEnumerable<Club>>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

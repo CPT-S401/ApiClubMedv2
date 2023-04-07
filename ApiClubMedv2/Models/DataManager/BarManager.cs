@@ -90,5 +90,10 @@ namespace ApiClubMedv2.Models.DataManager
         {
             throw new NotImplementedException();
         }
+
+        public Task<ActionResult<IEnumerable<Club>>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

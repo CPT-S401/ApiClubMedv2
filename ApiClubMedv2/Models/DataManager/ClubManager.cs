@@ -17,8 +17,7 @@ namespace ApiClubMedv2.Models.DataManager
 
         public ActionResult<IEnumerable<Club>> GetAll()
         {
-            return new JsonResult(
-                clubMedDbContext.Clubs
+            return new JsonResult(clubMedDbContext.Clubs
                 .Include(am => am.ClubMultimedias)
                         .ThenInclude(m => m.Multimedia)
                 .Include(c => c.ClubPaysLocalisations)
@@ -32,22 +31,11 @@ namespace ApiClubMedv2.Models.DataManager
                         c.Longitude,
                         c.Latitude,
                         c.Email,
-                        Pays = c.ClubPaysLocalisations.Select(pl => new
-                        {
-                            pl.Pays.Id,
-                            pl.Pays.Nom,
-                        }).FirstOrDefault(),
-                        DomaineSkiable = c.Domaine ?? c.Domaine,
-                        Avis = c.Avis ?? c.Avis,
-                        Multimedia = c.ClubMultimedias.Select(m => new
-                        {
-                            m.Multimedia.Id,
-                            m.Multimedia.Nom,
-                            m.Multimedia.Lien,
-                        }).ToList()
+                        NomPays = c.ClubPaysLocalisations.FirstOrDefault().Pays.Nom,
+                        LienMultimedia = c.ClubMultimedias.FirstOrDefault().Multimedia.Lien,
                     }
-            )
-        );
+                ).ToList()
+            );
         }
 
         public ActionResult<IEnumerable<Club>> GetStringByTable(string nameCountry)

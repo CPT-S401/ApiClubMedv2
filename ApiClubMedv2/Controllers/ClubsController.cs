@@ -17,7 +17,7 @@ namespace ApiClubMedv2.Controllers
 
         // GET : api/Clubs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Club>>> GetClubs()
+        public ActionResult<IEnumerable<Club>> GetClubs()
         {
             return _dataRepository.GetAll();
         }

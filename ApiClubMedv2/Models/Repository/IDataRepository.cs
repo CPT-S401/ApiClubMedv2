@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiClubMedv2.Models.EntityFramework;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiClubMedv2.Models.Repository
 {
